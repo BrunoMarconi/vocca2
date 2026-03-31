@@ -5,6 +5,82 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>VOCCA – Urban Food</title>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<!-- FIREBASE SDK – vocca-pedidos -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js';
+import {
+  getDatabase, ref, push, set, onValue, update, serverTimestamp
+} from 'https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js';
+
+const firebaseConfig = {
+  apiKey:            "AIzaSyCJujMOfWD4M1wxUOnxzf16bBvsisusoOs",
+  authDomain:        "vocca-pedidos.firebaseapp.com",
+  databaseURL:       "https://vocca-pedidos-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId:         "vocca-pedidos",
+  storageBucket:     "vocca-pedidos.firebasestorage.app",
+  messagingSenderId: "1062556361032",
+  appId:             "1:1062556361032:web:ed0e091939b05303ec937d"
+};
+
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+const ordersRef = ref(db, 'vocca/orders');
+
+/* ── Exponer funciones al scope global para que
+       el HTML inline pueda llamarlas ── */
+window._fb = {
+  /* Enviar nuevo pedido */
+  async pushOrder(order) {
+    const newRef = push(ordersRef);
+    const fbOrder = {
+      ...order,
+      id:        newRef.key,           // ID único de Firebase
+      createdAt: serverTimestamp(),    // timestamp del servidor
+      status:    'new',
+      statusTimes: { new: serverTimestamp() }
+    };
+    await set(newRef, fbOrder);
+    return newRef.key;
+  },
+
+  /* Cambiar estado de un pedido */
+  async updateStatus(fbKey, status) {
+    const orderRef = ref(db, `vocca/orders/${fbKey}`);
+    const updates = {
+      status,
+      [`statusTimes/${status}`]: serverTimestamp()
+    };
+    await update(orderRef, updates);
+  },
+
+  /* Escuchar todos los pedidos en tiempo real */
+  listenOrders(callback) {
+    onValue(ordersRef, snapshot => {
+      const data = snapshot.val() || {};
+      callback(data);
+    });
+  },
+
+  /* Escuchar un pedido concreto (para el tracker del cliente) */
+  listenOrder(fbKey, callback) {
+    const orderRef = ref(db, `vocca/orders/${fbKey}`);
+    return onValue(orderRef, snapshot => {
+      callback(snapshot.val());
+    });
+  }
+};
+
+/* Arrancar la escucha de pedidos para el panel de cocina */
+window._fb.listenOrders(data => {
+  if (typeof window._onFirebaseOrders === 'function') {
+    window._onFirebaseOrders(data);
+  }
+});
+
+console.log('🔥 Firebase conectado');
+</script>
+
 <style>
 :root{--cream:#f0ede6;--black:#0e0e0e;--dark:#1a1a1a;--gray:#888;--lgray:#e5e2db;--white:#fff;}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
@@ -38,6 +114,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--cream);
 .hamburger.open span:nth-child(2){opacity:0;}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 
+/* FB STATUS DOT */
+.fb-dot{width:8px;height:8px;border-radius:50%;background:#555;display:inline-block;
+  margin-right:6px;transition:background .4s;}
+.fb-dot.connected{background:#28c76f;animation:blink 2s infinite;}
+
 /* MOB MENU */
 .mob-menu{display:none;position:fixed;top:56px;left:0;right:0;
   background:var(--cream);border-bottom:1px solid var(--lgray);
@@ -64,7 +145,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--cream);
 .mob-bar-order:hover{background:#333;}
 
 /* HERO */
-.hero{margin-top:56px;min-height:520px;padding:60px 40px;display:flex;justify-content:center}
+.hero{margin-top:56px;min-height:520px;padding:60px 40px;display:flex;justify-content:center;}
 .hero-label{font-size:.72rem;letter-spacing:.14em;text-transform:uppercase;color:var(--gray);margin-bottom:16px;}
 .hero h1{font-family:'Playfair Display',serif;font-size:3.4rem;line-height:1.1;margin-bottom:18px;}
 .hero p{font-size:.9rem;color:var(--gray);line-height:1.7;max-width:340px;margin-bottom:28px;}
@@ -114,7 +195,7 @@ section{padding:80px;}
 .btn-add:hover{background:var(--black);color:var(--white);border-color:var(--black);}
 
 /* WHY */
-.why-section{padding:80px 40px !important;display:flex;justify-content:center}
+.why-section{padding:80px 40px !important;display:flex;justify-content:center;}
 .why-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;}
 .why-card h4{font-weight:600;font-size:.9rem;margin-bottom:6px;}
 .why-card p{font-size:.8rem;color:var(--gray);line-height:1.6;}
@@ -138,7 +219,7 @@ section{padding:80px;}
 .review-role{font-size:.75rem;color:var(--gray);margin-top:2px;}
 
 /* CONTACT */
-.contact-section{background:var(--black);color:var(--white);padding:80px 40px !important;display:flex;justify-content:center}
+.contact-section{background:var(--black);color:var(--white);padding:80px 40px !important;display:flex;justify-content:center;}
 .contact-section .section-label{color:#888;}
 .contact-section .section-title{color:var(--white);max-width:360px;}
 .contact-section p{color:#aaa;font-size:.88rem;line-height:1.7;margin-bottom:28px;}
@@ -239,8 +320,9 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
 .btn-send{width:100%;background:var(--black);color:var(--white);border:none;border-radius:12px;
   padding:16px;font-size:1rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:background .2s;}
 .btn-send:hover{background:#333;}
+.btn-send:disabled{background:#aaa;cursor:not-allowed;}
 
-/* DELIVERY ZONE BOX */
+/* DELIVERY ZONE */
 .addr-wrap{display:none;}
 .addr-cp-row{display:grid;grid-template-columns:120px 1fr;gap:10px;margin-bottom:10px;}
 .zone-box{display:none;background:#f7f5f1;border-radius:12px;padding:13px 16px;margin-bottom:14px;}
@@ -303,8 +385,7 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
 .prod-desc{font-size:.88rem;color:var(--gray);line-height:1.7;margin-bottom:20px;}
 .prod-tags{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:20px;}
 .prod-tag{background:var(--cream);border-radius:20px;padding:4px 12px;font-size:.74rem;color:#666;font-weight:500;}
-.prod-footer{display:flex;align-items:center;justify-content:space-between;
-  border-top:1px solid var(--lgray);padding-top:20px;gap:16px;}
+.prod-footer{display:flex;align-items:center;justify-content:space-between;border-top:1px solid var(--lgray);padding-top:20px;gap:16px;}
 .prod-price{font-family:'Playfair Display',serif;font-size:2rem;font-weight:700;}
 .prod-qty{display:flex;align-items:center;gap:10px;}
 .prod-qty button{width:36px;height:36px;border-radius:50%;background:var(--lgray);border:none;cursor:pointer;
@@ -337,9 +418,10 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
 .adm-topbar{background:#161922;border-bottom:1px solid #252836;padding:0 24px;height:52px;flex-shrink:0;
   display:flex;align-items:center;justify-content:space-between;gap:12px;}
 .adm-logo{font-family:'Playfair Display',serif;font-size:1.15rem;color:#fff;display:flex;align-items:center;gap:10px;flex-shrink:0;}
-.adm-badge{background:#e85d04;color:#fff;border-radius:6px;padding:2px 9px;font-size:.65rem;font-weight:700;font-family:'DM Sans',sans-serif;letter-spacing:.08em;}
+.adm-badge{background:#e85d04;color:#fff;border-radius:6px;padding:2px 9px;font-size:.65rem;font-weight:700;letter-spacing:.08em;}
 .adm-topbar-right{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .adm-clock{font-size:.8rem;color:#666;font-variant-numeric:tabular-nums;}
+.adm-fb-status{font-size:.75rem;color:#666;display:flex;align-items:center;}
 .adm-btn{background:#252836;border:none;color:#aaa;border-radius:8px;padding:6px 14px;font-size:.78rem;
   cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;transition:background .2s;}
 .adm-btn:hover{background:#32364a;color:#fff;}
@@ -434,12 +516,12 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
   .menu-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
   .menu-tabs::-webkit-scrollbar{display:none;}
   .products-grid{grid-template-columns:1fr 1fr;gap:14px;}
-  .why-section{grid-template-columns:1fr;gap:32px;}
+  .why-section{grid-template-columns:1fr !important;gap:32px;}
   .why-imgs{height:240px;}
   .reviews-top{flex-direction:column;align-items:flex-start;gap:16px;}
   .rating-big{text-align:left;}
   .reviews-grid{grid-template-columns:1fr;gap:14px;}
-  .contact-section{grid-template-columns:1fr;gap:36px;}
+  .contact-section{grid-template-columns:1fr !important;gap:36px;}
   .contact-info-grid{grid-template-columns:1fr 1fr;}
   footer{grid-template-columns:1fr;padding:36px 24px;gap:24px;}
   .footer-desc{max-width:100%;}
@@ -532,6 +614,7 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
     <div class="adm-logo">VOCCA <span class="adm-badge">COCINA</span></div>
     <div class="adm-topbar-right">
       <span class="adm-clock" id="admClock">--:--:--</span>
+      <span class="adm-fb-status"><span class="fb-dot" id="fbDot"></span><span id="fbStatus">Conectando...</span></span>
       <button class="adm-btn-demo" onclick="injectDemo()">➕ Simular pedido</button>
       <button class="adm-btn" onclick="toggleSound()" id="soundBtn">🔔 Sonido ON</button>
       <button class="adm-btn" onclick="closeAdmin()">✕ Cerrar</button>
@@ -559,7 +642,7 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
         <div class="adm-col-scroll" id="col-ready"><div class="adm-empty"><i>✅</i>Ninguno listo aún</div></div>
       </div>
       <div class="adm-col">
-        <div class="adm-col-hd"><div class="adm-col-label" style="color:#555">⚫ Entregados <span class="adm-col-cnt" id="cnt-done">0</span></div></div>
+        <div class="adm-col-hd"><div class="adm-col-label" style="color:#555">⚫ Entregados hoy <span class="adm-col-cnt" id="cnt-done">0</span></div></div>
         <div class="adm-col-scroll" id="col-done"><div class="adm-empty"><i>📦</i>Historial vacío</div></div>
       </div>
     </div>
@@ -745,14 +828,11 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
           <div class="form-group"><label>Nombre *</label><input type="text" id="fName" placeholder="Tu nombre"></div>
           <div class="form-group"><label>Teléfono *</label><input type="tel" id="fPhone" placeholder="600 000 000"></div>
         </div>
-
-        <!-- DELIVERY ADDRESS — only shown when domicilio -->
         <div class="addr-wrap" id="addrWrap">
           <div class="addr-cp-row">
             <div class="form-group" style="margin-bottom:0">
               <label>Código postal *</label>
-              <input type="text" id="fCP" inputmode="numeric" maxlength="5" placeholder="29130"
-                oninput="onCPInput()" autocomplete="postal-code">
+              <input type="text" id="fCP" inputmode="numeric" maxlength="5" placeholder="29130" oninput="onCPInput()" autocomplete="postal-code">
             </div>
             <div class="form-group" style="margin-bottom:0">
               <label>Calle y número *</label>
@@ -763,8 +843,6 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
             <label>Piso / Puerta <span style="color:var(--gray);font-weight:400;font-size:.76rem">(opcional)</span></label>
             <input type="text" id="fPiso" placeholder="2º B, portal 3...">
           </div>
-
-          <!-- Zone result box -->
           <div class="zone-box" id="zoneBox">
             <div class="zone-box-inner">
               <div><div class="zone-name" id="zoneName"></div><div class="zone-desc" id="zoneDesc"></div></div>
@@ -774,7 +852,6 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
           </div>
           <div class="zone-err" id="zoneErr"></div>
         </div>
-
         <div class="form-group"><label>Hora deseada</label><input type="time" id="fTime" value="13:30"></div>
         <div class="form-group"><label>Notas / Alérgenos</label><textarea id="fNotes" placeholder="Sin cebolla, alérgico a frutos secos..."></textarea></div>
       </div>
@@ -782,9 +859,8 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
         <div class="modal-section-title">Resumen</div>
         <div class="order-summary" id="orderSummary"><p style="color:var(--gray);font-size:.83rem">Añade productos desde la carta.</p></div>
       </div>
-      <button class="btn-send" onclick="sendOrder()">Enviar pedido ✓</button>
+      <button class="btn-send" id="btnSend" onclick="sendOrder()">Enviar pedido ✓</button>
     </div>
-    <!-- TRACKER -->
     <div class="tracker-wrap" id="trackerWrap">
       <div class="tracker-num" id="trackerNum">Pedido #000</div>
       <div class="tracker-title">¡Pedido recibido! 🎉</div>
@@ -824,7 +900,6 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
   </div>
 </div>
 
-<!-- TRACK FAB -->
 <button class="track-fab" id="trackFab" onclick="openTrackerFab()">
   <span class="track-fab-pulse"></span>Ver mi pedido
 </button>
@@ -832,6 +907,86 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
 <div class="toast" id="toast"></div>
 
 <script>
+/* ══════════════════════════════════════════════
+   FIREBASE CONNECTION STATUS
+══════════════════════════════════════════════ */
+let fbReady = false;
+
+/* Monitorizar estado de conexión Firebase */
+import('https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js')
+  .then(({ getDatabase, ref, onValue }) => {
+    /* El módulo ya está cargado por el script type=module de arriba,
+       usamos el objeto global window._fb que expone las funciones */
+  }).catch(() => {});
+
+/* Comprobar si Firebase ya está disponible (puede tardar unos ms) */
+const fbCheckInterval = setInterval(() => {
+  if (window._fb) {
+    fbReady = true;
+    clearInterval(fbCheckInterval);
+    setFbStatus(true);
+    console.log('✅ Firebase disponible en JS principal');
+  }
+}, 200);
+
+function setFbStatus(connected) {
+  const dot = document.getElementById('fbDot');
+  const txt = document.getElementById('fbStatus');
+  if (dot) dot.className = 'fb-dot' + (connected ? ' connected' : '');
+  if (txt) txt.textContent = connected ? '🔥 Tiempo real activo' : 'Sin conexión';
+}
+
+/* ══════════════════════════════════════════════
+   Firebase recibe pedidos en tiempo real
+   → actualiza kanban y tracker del cliente
+══════════════════════════════════════════════ */
+window._onFirebaseOrders = function(data) {
+  setFbStatus(true);
+  /* Convertir snapshot de Firebase en objeto de pedidos local */
+  const fbOrders = {};
+  const fbAll    = [];
+  let hadNew     = false;
+
+  Object.entries(data).forEach(([key, o]) => {
+    /* Normalizar timestamps de Firebase (pueden ser números o null) */
+    const normalized = {
+      ...o,
+      id:        key,        /* usamos la key de Firebase como ID */
+      fbKey:     key,
+      createdAt: o.createdAt || Date.now(),
+    };
+    const isNew = !orders[key] && o.status === 'new';
+    fbOrders[key] = normalized;
+    fbAll.push(normalized);
+    if (isNew) hadNew = true;
+  });
+
+  /* Sincronizar con estado local */
+  orders    = fbOrders;
+  allOrders = fbAll;
+
+  renderKanban();
+  updateStats();
+
+  /* Sonar y alertar si hay pedidos nuevos */
+  if (hadNew) {
+    flashAlert();
+    if (soundOn) beep();
+  }
+
+  /* Actualizar tracker del cliente si está mirando su pedido */
+  if (activeTrackerKey && orders[activeTrackerKey]) {
+    const liveOrder = orders[activeTrackerKey];
+    renderTracker(liveOrder);
+    /* Sincronizar con localStorage */
+    saveOrder(liveOrder);
+    if (liveOrder.status === 'done') {
+      hideFab();
+      setTimeout(clearOrder, 3600000);
+    }
+  }
+};
+
 /* ══════════════════════════════════════════════
    DATA
 ══════════════════════════════════════════════ */
@@ -849,92 +1004,62 @@ const PRODUCTS=[
 const CAT_LABELS={shawarmas:'Shawarmas',burgers:'Burgers',entrantes:'Entrantes',ensaladas:'Ensaladas',bebidas:'Bebidas',combos:'Combos'};
 
 /* ══════════════════════════════════════════════
-   DELIVERY ZONES — by postal code (no API needed)
-   Local: C. Guete, Local 7, 29130 Alhaurín de la Torre
+   DELIVERY ZONES
 ══════════════════════════════════════════════ */
 const CP_ZONES = {
-  // Zona 1 — Gratis (Alhaurín de la Torre y alrededores inmediatos)
-  '29130':{ zone:1, name:'Alhaurín de la Torre',   fee:0,    color:'#28c76f', desc:'Envío gratuito 🎉' },
-  '29120':{ zone:1, name:'Alhaurín de la Torre',   fee:0,    color:'#28c76f', desc:'Envío gratuito 🎉' },
-  // Zona 2 — 1,50 € (municipios cercanos)
-  '29140':{ zone:2, name:'Churriana / Cártama',    fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
-  '29580':{ zone:2, name:'Cártama',                fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
-  '29100':{ zone:2, name:'Coín',                   fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
-  '29570':{ zone:2, name:'Cártama Estación',       fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
-  '29700':{ zone:2, name:'Vélez-Málaga',           fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
-  // Zona 3 — 2,50 €
-  '29010':{ zone:3, name:'Málaga centro',          fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29011':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29012':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29013':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29014':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29015':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29016':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29017':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29018':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29019':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29004':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29006':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29007':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29008':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29009':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29002':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29003':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29005':{ zone:3, name:'Málaga',                 fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29590':{ zone:3, name:'Campanillas / Málaga',   fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29160':{ zone:3, name:'Casabermeja',            fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29200':{ zone:3, name:'Antequera',              fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  '29150':{ zone:3, name:'Almogía',                fee:2.50, color:'#f5a623', desc:'Envío estándar' },
-  // Zona 4 — 3,99 €
-  '29400':{ zone:4, name:'Ronda',                  fee:3.99, color:'#e85d04', desc:'Envío largo' },
-  '29680':{ zone:4, name:'Estepona',               fee:3.99, color:'#e85d04', desc:'Envío largo' },
-  '29660':{ zone:4, name:'Marbella',               fee:3.99, color:'#e85d04', desc:'Envío largo' },
-  '29670':{ zone:4, name:'Marbella',               fee:3.99, color:'#e85d04', desc:'Envío largo' },
-  '29600':{ zone:4, name:'Marbella',               fee:3.99, color:'#e85d04', desc:'Envío largo' },
-  '29620':{ zone:4, name:'Torremolinos',           fee:3.99, color:'#e85d04', desc:'Envío largo' },
-  '29630':{ zone:4, name:'Benalmádena',            fee:3.99, color:'#e85d04', desc:'Envío largo' },
-  '29640':{ zone:4, name:'Fuengirola',             fee:3.99, color:'#e85d04', desc:'Envío largo' },
-  '29650':{ zone:4, name:'Mijas',                  fee:3.99, color:'#e85d04', desc:'Envío largo' },
+  '29130':{ zone:1, name:'Alhaurín de la Torre', fee:0,    color:'#28c76f', desc:'Envío gratuito 🎉' },
+  '29120':{ zone:1, name:'Alhaurín de la Torre', fee:0,    color:'#28c76f', desc:'Envío gratuito 🎉' },
+  '29140':{ zone:2, name:'Churriana / Cártama',  fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
+  '29580':{ zone:2, name:'Cártama',              fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
+  '29100':{ zone:2, name:'Coín',                 fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
+  '29570':{ zone:2, name:'Cártama Estación',     fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
+  '29700':{ zone:2, name:'Vélez-Málaga',         fee:1.50, color:'#7ab8f5', desc:'Envío económico' },
+  '29590':{ zone:3, name:'Campanillas / Málaga', fee:2.50, color:'#f5a623', desc:'Envío estándar' },
+  '29160':{ zone:3, name:'Casabermeja',          fee:2.50, color:'#f5a623', desc:'Envío estándar' },
+  '29200':{ zone:3, name:'Antequera',            fee:2.50, color:'#f5a623', desc:'Envío estándar' },
+  '29400':{ zone:4, name:'Ronda',                fee:3.99, color:'#e85d04', desc:'Envío largo' },
+  '29620':{ zone:4, name:'Torremolinos',         fee:3.99, color:'#e85d04', desc:'Envío largo' },
+  '29630':{ zone:4, name:'Benalmádena',          fee:3.99, color:'#e85d04', desc:'Envío largo' },
+  '29640':{ zone:4, name:'Fuengirola',           fee:3.99, color:'#e85d04', desc:'Envío largo' },
+  '29650':{ zone:4, name:'Mijas',                fee:3.99, color:'#e85d04', desc:'Envío largo' },
+  '29660':{ zone:4, name:'Marbella',             fee:3.99, color:'#e85d04', desc:'Envío largo' },
+  '29680':{ zone:4, name:'Estepona',             fee:3.99, color:'#e85d04', desc:'Envío largo' },
 };
+/* CPs de Málaga ciudad */
+['02','03','04','05','06','07','08','09','10','11','12','13','14','15','16','17','18','19'].forEach(s=>{
+  CP_ZONES['290'+s]={ zone:3, name:'Málaga', fee:2.50, color:'#f5a623', desc:'Envío estándar' };
+});
 
 function lookupCP(cp){
-  const trimmed = cp.trim();
-  if(CP_ZONES[trimmed]) return CP_ZONES[trimmed];
-  // Province of Málaga starts with 29 — charge max fee
-  if(trimmed.startsWith('29')) return { zone:4, name:'Provincia de Málaga', fee:3.99, color:'#e85d04', desc:'Envío largo' };
-  return null; // outside coverage
+  const t=cp.trim();
+  if(CP_ZONES[t]) return CP_ZONES[t];
+  if(t.startsWith('29')) return { zone:4, name:'Provincia de Málaga', fee:3.99, color:'#e85d04', desc:'Envío largo' };
+  return null;
 }
 
-let deliveryFee = 0;
-let currentZone = null;
-
+let deliveryFee=0, currentZone=null;
 function onCPInput(){
-  const cp = document.getElementById('fCP').value.trim();
+  const cp=document.getElementById('fCP').value.trim();
   document.getElementById('zoneBox').style.display='none';
   document.getElementById('zoneErr').style.display='none';
-  deliveryFee=null; currentZone=null;
-  updateSummary();
+  deliveryFee=null; currentZone=null; updateSummary();
   if(cp.length===5) calcZoneFromCP(cp);
 }
-
 function calcZoneFromCP(cp){
-  const result = lookupCP(cp);
-  if(!result){
-    document.getElementById('zoneErr').textContent='⚠️ Código postal fuera de nuestra zona de reparto. Solo repartimos en la provincia de Málaga (CP 29xxx).';
+  const r=lookupCP(cp);
+  if(!r){
+    document.getElementById('zoneErr').textContent='⚠️ CP fuera de zona. Solo repartimos en la provincia de Málaga (29xxx).';
     document.getElementById('zoneErr').style.display='block';
-    document.getElementById('zoneBox').style.display='none';
-    deliveryFee=null; currentZone=null;
-    updateSummary(); return;
+    deliveryFee=null; currentZone=null; updateSummary(); return;
   }
-  deliveryFee = result.fee;
-  currentZone = result.name;
-  document.getElementById('zoneName').textContent = result.name;
-  document.getElementById('zoneDesc').textContent = result.desc;
-  document.getElementById('zonePrice').textContent = result.fee===0 ? 'Gratis' : fmt(result.fee);
-  document.getElementById('zonePrice').style.color = result.color;
-  const pct = Math.round(((result.zone-1)/3)*100);
-  document.getElementById('zoneBarFill').style.width = pct+'%';
-  document.getElementById('zoneBarFill').style.background = result.color;
+  deliveryFee=r.fee; currentZone=r.name;
+  document.getElementById('zoneName').textContent=r.name;
+  document.getElementById('zoneDesc').textContent=r.desc;
+  document.getElementById('zonePrice').textContent=r.fee===0?'Gratis':fmt(r.fee);
+  document.getElementById('zonePrice').style.color=r.color;
+  const pct=Math.round(((r.zone-1)/3)*100);
+  document.getElementById('zoneBarFill').style.width=pct+'%';
+  document.getElementById('zoneBarFill').style.background=r.color;
   document.getElementById('zoneBox').style.display='block';
   document.getElementById('zoneErr').style.display='none';
   updateSummary();
@@ -1028,12 +1153,11 @@ function openModal(){
 }
 function closeModal(){
   document.getElementById('modalOverlay').classList.remove('open');
-  clearInterval(trackerInterval);
   setTimeout(()=>{
     document.getElementById('orderForm').style.display='block';
     document.getElementById('trackerWrap').classList.remove('show');
     const stored=loadOrder();
-    if(!stored||stored.status==='done') activeTrackerOrderId=null;
+    if(!stored||stored.status==='done') activeTrackerKey=null;
   },300);
 }
 document.getElementById('modalOverlay').addEventListener('click',function(e){if(e.target===this)closeModal();});
@@ -1052,53 +1176,72 @@ function updateSummary(){
   if(!items.length){s.innerHTML='<p style="color:var(--gray);font-size:.83rem">Añade productos desde la carta.</p>';return;}
   const sub=items.reduce((a,b)=>a+b.price*b.qty,0);
   const fee=deliveryMode==='delivery'&&deliveryFee>0?deliveryFee:0;
-  const total=sub+fee;
   let rows=items.map(p=>`<div class="orow"><span>${p.emoji} ${p.name} × ${p.qty}</span><span>${fmt(p.price*p.qty)}</span></div>`).join('');
   if(fee>0) rows+=`<div class="orow"><span>🛵 Gastos de envío</span><span>${fmt(fee)}</span></div>`;
-  s.innerHTML=rows+`<div class="orow total"><span>Total</span><span>${fmt(total)}</span></div>`;
+  s.innerHTML=rows+`<div class="orow total"><span>Total</span><span>${fmt(sub+fee)}</span></div>`;
 }
 
-function sendOrder(){
+async function sendOrder(){
   const name=document.getElementById('fName').value.trim();
   const phone=document.getElementById('fPhone').value.trim();
   if(!name||!phone){toast('⚠️ Introduce tu nombre y teléfono');return;}
   if(!Object.keys(cart).length){toast('⚠️ Tu carrito está vacío');return;}
   if(deliveryMode==='delivery'){
     const cp=document.getElementById('fCP').value.trim();
-    const addr=document.getElementById('fAddr').value.trim();
     if(!cp||cp.length!==5){toast('⚠️ Introduce el código postal (5 dígitos)');return;}
-    if(!addr){toast('⚠️ Introduce la calle y número');return;}
-    if(deliveryFee===null){toast('⚠️ Código postal fuera de nuestra zona de reparto');return;}
+    if(!document.getElementById('fAddr').value.trim()){toast('⚠️ Introduce la calle y número');return;}
+    if(deliveryFee===null){toast('⚠️ CP fuera de zona de reparto');return;}
   }
+
+  const btn=document.getElementById('btnSend');
+  btn.disabled=true;btn.textContent='Enviando...';
+
   const items=Object.values(cart);
   const sub=items.reduce((a,b)=>a+b.price*b.qty,0);
   const fee=deliveryMode==='delivery'&&deliveryFee>0?deliveryFee:0;
   const cp=deliveryMode==='delivery'?document.getElementById('fCP').value.trim():'';
   const addr=deliveryMode==='delivery'?document.getElementById('fAddr').value.trim():'';
   const piso=deliveryMode==='delivery'?document.getElementById('fPiso').value.trim():'';
-  const fullAddr=addr+(piso?' · '+piso:'')+(cp?' ('+cp+')':'');
-  const order={
-    id:++orderCounter,name,phone,delivery:deliveryMode,
-    address:fullAddr,cp,
-    deliveryFee:fee,deliveryZone:currentZone||'',
+
+  const orderData={
+    name, phone, delivery:deliveryMode,
+    address: addr+(piso?' · '+piso:'')+(cp?' ('+cp+')':''),
+    cp, deliveryFee:fee, deliveryZone:currentZone||'',
     time:document.getElementById('fTime').value,
     notes:document.getElementById('fNotes').value.trim(),
     items:items.map(p=>({name:p.name,emoji:p.emoji,qty:p.qty,price:p.price})),
-    total:sub+fee,status:'new',createdAt:Date.now(),statusTimes:{new:Date.now()}
+    total:sub+fee,
   };
-  addKitchenOrder(order);
-  activeTrackerOrderId=order.id;
-  saveOrder(order);
-  showFab();
-  document.getElementById('orderForm').style.display='none';
-  showTracker(order);
-  cart={};updateCartUI();
+
+  try {
+    /* ── ENVIAR A FIREBASE ── */
+    if(!fbReady || !window._fb){
+      toast('⚠️ Sin conexión con Firebase. Configura tu proyecto primero.');
+      btn.disabled=false; btn.textContent='Enviar pedido ✓'; return;
+    }
+    const fbKey = await window._fb.pushOrder(orderData);
+
+    /* El objeto real del pedido tendrá la key de Firebase como ID */
+    activeTrackerKey = fbKey;
+    const localOrder  = { ...orderData, id: fbKey, fbKey, status:'new', createdAt: Date.now(), statusTimes:{new:Date.now()} };
+    saveOrder(localOrder);
+    showFab();
+
+    document.getElementById('orderForm').style.display='none';
+    showTracker(localOrder);
+    cart={};updateCartUI();
+
+  } catch(err) {
+    console.error('Firebase error:', err);
+    toast('❌ Error al enviar. Comprueba la configuración de Firebase.');
+    btn.disabled=false; btn.textContent='Enviar pedido ✓';
+  }
 }
 
 /* ══════════════════════════════════════════════
    PRODUCT MODAL
 ══════════════════════════════════════════════ */
-let pqQty=1, pqId=null;
+let pqQty=1,pqId=null;
 function openProdModal(id){
   const p=PRODUCTS.find(x=>x.id===id);if(!p)return;
   pqId=id;pqQty=1;
@@ -1142,8 +1285,7 @@ function toast(msg){
 /* ══════════════════════════════════════════════
    ORDER TRACKER
 ══════════════════════════════════════════════ */
-let activeTrackerOrderId=null;
-let trackerInterval=null;
+let activeTrackerKey=null; /* Firebase key del pedido activo del cliente */
 const TSTEPS={
   local:    [{key:'new',icon:'✅',label:'Pedido recibido',desc:'Tu pedido ha llegado a cocina.'},
              {key:'prep',icon:'🍳',label:'En preparación',desc:'El equipo está preparando tu pedido.'},
@@ -1168,18 +1310,18 @@ const MSGS={
 function showTracker(order){
   document.getElementById('trackerWrap').classList.add('show');
   renderTracker(order);
-  clearInterval(trackerInterval);
-  trackerInterval=setInterval(()=>{const o=orders[activeTrackerOrderId];if(o)renderTracker(o);},800);
+  /* El tracker se actualiza via _onFirebaseOrders, no necesita polling local */
 }
 function renderTracker(order){
-  document.getElementById('trackerNum').textContent='Pedido #'+String(order.id).padStart(3,'0');
+  document.getElementById('trackerNum').textContent='Pedido #'+(typeof order.id==='string'?order.id.slice(-6):String(order.id).padStart(3,'0'));
   const ai=SORDER.indexOf(order.status);
   const steps=TSTEPS[order.delivery]||TSTEPS.local;
   const sub=MSGS[order.status]||(order.delivery==='delivery'?'🛵 Tu pedido está en camino.':'🔔 ¡Listo! Pasa a recogerlo.');
   document.getElementById('trackerSub').textContent=sub;
   document.getElementById('trackerSteps').innerHTML=steps.map((step,i)=>{
     const done=i<ai,active=i===ai,last=i===steps.length-1;
-    const t=order.statusTimes?.[step.key]?new Date(order.statusTimes[step.key]).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}):'';
+    const t=order.statusTimes&&order.statusTimes[step.key]&&typeof order.statusTimes[step.key]==='number'
+      ?new Date(order.statusTimes[step.key]).toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit'}):'';
     return`<div class="tstep">
       <div class="tstep-line">
         <div class="tdot${done?' done':active?' active':''}">${done?'✓':active?step.icon:'<span style="width:10px;height:10px;border-radius:50%;background:var(--lgray);display:block"></span>'}</div>
@@ -1202,9 +1344,9 @@ function renderTracker(order){
 }
 
 /* ══════════════════════════════════════════════
-   TRACKER PERSISTENCE
+   TRACKER PERSISTENCE (localStorage)
 ══════════════════════════════════════════════ */
-const ORDER_KEY='vocca_order';
+const ORDER_KEY='vocca_order_v2';
 function saveOrder(o){try{localStorage.setItem(ORDER_KEY,JSON.stringify(o));}catch(e){}}
 function loadOrder(){try{const r=localStorage.getItem(ORDER_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
 function clearOrder(){try{localStorage.removeItem(ORDER_KEY);}catch(e){}}
@@ -1212,20 +1354,20 @@ function showFab(){const f=document.getElementById('trackFab');if(f)f.classList.
 function hideFab(){const f=document.getElementById('trackFab');if(f)f.classList.remove('visible');}
 function openTrackerFab(){
   const stored=loadOrder();if(!stored)return;
-  const live=orders[stored.id];
+  activeTrackerKey=stored.fbKey||stored.id;
+  /* Buscar en live orders primero */
+  const live=orders[activeTrackerKey];
   const order=live||stored;
-  activeTrackerOrderId=order.id;
   document.getElementById('orderForm').style.display='none';
   document.getElementById('trackerWrap').classList.add('show');
   document.getElementById('modalOverlay').classList.add('open');
-  showTracker(order);
+  renderTracker(order);
 }
-// Restore on page load
+/* Restaurar al cargar la página */
 (function(){
   const stored=loadOrder();
   if(!stored||stored.status==='done'){clearOrder();return;}
-  activeTrackerOrderId=stored.id;
-  if(!orders[stored.id]){orders[stored.id]=stored;orderCounter=Math.max(orderCounter,stored.id);}
+  activeTrackerKey=stored.fbKey||stored.id;
   showFab();
 })();
 
@@ -1248,17 +1390,24 @@ document.addEventListener('click',function(e){
 /* ══════════════════════════════════════════════
    KITCHEN ADMIN
 ══════════════════════════════════════════════ */
-let orders={},orderCounter=0,soundOn=true,allOrders=[],alertTimer=null;
-function openAdmin(){document.getElementById('adminPanel').classList.add('open');startClock();renderKanban();updateStats();}
+let orders={}, allOrders=[], soundOn=true, alertTimer=null;
+
+function openAdmin(){
+  document.getElementById('adminPanel').classList.add('open');
+  startClock();
+  renderKanban();
+  updateStats();
+}
 function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');}
+
 function startClock(){
   clearInterval(window._clk);
   window._clk=setInterval(()=>{
     const el=document.getElementById('admClock');
     if(el)el.textContent=new Date().toLocaleTimeString('es-ES',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
-    document.querySelectorAll('[data-oid]').forEach(el=>{
-      const o=orders[+el.dataset.oid];if(!o)return;
-      const s=Math.floor((Date.now()-o.createdAt)/1000);
+    document.querySelectorAll('[data-fbkey]').forEach(el=>{
+      const o=orders[el.dataset.fbkey];if(!o)return;
+      const s=Math.floor((Date.now()-(o.createdAt||0))/1000);
       const te=el.querySelector('.tk-timer');if(!te)return;
       te.textContent='⏱ '+fmtT(s);
       te.className='tk-timer'+(s>900?' urgent':s>480?' warn':'');
@@ -1266,30 +1415,37 @@ function startClock(){
   },1000);
 }
 function fmtT(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' min';}
-function addKitchenOrder(order){
-  orders[order.id]=order;allOrders.push(order);
-  renderKanban();updateStats();flashAlert();if(soundOn)beep();
-}
+
 const DN=['Laura García','Marcos Ruiz','Sofía Jiménez','Pablo López','Ana Martínez'];
 const DM=['local','takeaway','delivery'];
-function injectDemo(){
-  orderCounter++;
+
+async function injectDemo(){
+  if(!fbReady||!window._fb){toast('⚠️ Firebase no conectado');return;}
   const n=1+Math.floor(Math.random()*3);
   const shuffled=[...PRODUCTS].sort(()=>Math.random()-.5).slice(0,n);
   const items=shuffled.map(p=>({name:p.name,emoji:p.emoji,qty:1+Math.floor(Math.random()*2),price:p.price}));
   const total=items.reduce((a,b)=>a+b.price*b.qty,0);
   const dm=DM[Math.floor(Math.random()*DM.length)];
   const demoFee=dm==='delivery'?1.50:0;
-  addKitchenOrder({id:orderCounter,name:DN[Math.floor(Math.random()*DN.length)],phone:'600'+Math.floor(Math.random()*1000000),delivery:dm,
-    address:dm==='delivery'?'Calle Jumilla 14 (29130)':'',cp:'29130',deliveryFee:demoFee,deliveryZone:dm==='delivery'?'Alhaurín de la Torre':'',
-    time:'13:'+String(20+Math.floor(Math.random()*40)).padStart(2,'0'),notes:['Sin cebolla','','Extra picante'][Math.floor(Math.random()*3)],
-    items,total:total+demoFee,status:'new',createdAt:Date.now(),statusTimes:{new:Date.now()}});
-  toast('🔔 Pedido demo recibido');
+  try{
+    await window._fb.pushOrder({
+      name:DN[Math.floor(Math.random()*DN.length)],
+      phone:'600'+Math.floor(Math.random()*1000000),
+      delivery:dm,
+      address:dm==='delivery'?'Calle Jumilla 14 (29130)':'',
+      cp:'29130', deliveryFee:demoFee, deliveryZone:dm==='delivery'?'Alhaurín de la Torre':'',
+      time:'13:'+String(20+Math.floor(Math.random()*40)).padStart(2,'0'),
+      notes:['Sin cebolla','','Extra picante'][Math.floor(Math.random()*3)],
+      items, total:total+demoFee,
+    });
+    toast('🔔 Pedido demo enviado a Firebase');
+  }catch(e){toast('❌ Error al simular pedido');}
 }
+
 function renderKanban(){
   const cols={new:[],prep:[],ready:[],done:[]};
-  Object.values(orders).forEach(o=>cols[o.status]?cols[o.status].push(o):cols.done.push(o));
-  cols.new.sort((a,b)=>b.createdAt-a.createdAt);
+  Object.values(orders).forEach(o=>{ (cols[o.status]||cols.done).push(o); });
+  cols.new.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
   const empties={new:['🛎️','Sin pedidos nuevos'],prep:['🍳','Nada en preparación'],ready:['✅','Ninguno listo'],done:['📦','Historial vacío']};
   Object.entries(cols).forEach(([key,list])=>{
     const col=document.getElementById('col-'+key);const cnt=document.getElementById('cnt-'+key);
@@ -1300,50 +1456,53 @@ function renderKanban(){
   });
   ['new','prep','ready','done'].forEach(k=>{const el=document.getElementById('st-'+k);if(el)el.textContent=cols[k].length;});
 }
+
 function buildTicket(o){
-  const s=Math.floor((Date.now()-o.createdAt)/1000);
+  const fbKey=o.fbKey||o.id;
+  const s=Math.floor((Date.now()-(o.createdAt||0))/1000);
   const tCl=s>900?' urgent':s>480?' warn':'';
   const bCl=o.delivery==='local'?'b-local':o.delivery==='takeaway'?'b-takeaway':'b-delivery';
   const bL=o.delivery==='local'?'🍽 Local':o.delivery==='takeaway'?'🛍 Llevar':'🛵 Domicilio';
   let acts='';
-  if(o.status==='new')  acts=`<button class="tka tka-accept" onclick="moveOrder(${o.id},'prep')">▶ Aceptar</button><button class="tka tka-reject" onclick="moveOrder(${o.id},'done')">✕</button>`;
-  if(o.status==='prep') acts=`<button class="tka tka-ready" onclick="moveOrder(${o.id},'ready')">✓ Listo</button>`;
-  if(o.status==='ready')acts=`<button class="tka tka-deliver" onclick="moveOrder(${o.id},'done')">📦 Entregado</button>`;
+  if(o.status==='new')  acts=`<button class="tka tka-accept" onclick="moveOrder('${fbKey}','prep')">▶ Aceptar</button><button class="tka tka-reject" onclick="moveOrder('${fbKey}','done')">✕</button>`;
+  if(o.status==='prep') acts=`<button class="tka tka-ready" onclick="moveOrder('${fbKey}','ready')">✓ Listo</button>`;
+  if(o.status==='ready')acts=`<button class="tka tka-deliver" onclick="moveOrder('${fbKey}','done')">📦 Entregado</button>`;
   if(o.status==='done') acts=`<span style="font-size:.73rem;color:#555">Completado</span>`;
-  return`<div class="ticket${o.status==='new'?' is-new':o.status==='ready'?' is-ready':''}" data-oid="${o.id}">
-    <div class="tk-head"><span class="tk-num">#${String(o.id).padStart(3,'0')}</span><span class="tk-badge ${bCl}">${bL}</span></div>
+  const shortId=typeof fbKey==='string'?fbKey.slice(-5):String(fbKey).padStart(5,'0');
+  return`<div class="ticket${o.status==='new'?' is-new':o.status==='ready'?' is-ready':''}" data-fbkey="${fbKey}">
+    <div class="tk-head"><span class="tk-num">#${shortId}</span><span class="tk-badge ${bCl}">${bL}</span></div>
     <div class="tk-customer">
       <div class="tk-name">👤 ${o.name}</div>
       <div class="tk-meta">📞 ${o.phone}${o.time?' · ⏰ '+o.time:''}</div>
       ${o.delivery==='delivery'&&o.address?`<div class="tk-meta" style="color:#6fdab5;margin-top:2px">📍 ${o.address}${o.deliveryZone?' · '+o.deliveryZone:''}</div>`:''}
       ${o.deliveryFee>0?`<div class="tk-meta" style="color:#f5a623;margin-top:1px">🛵 Envío: ${fmt(o.deliveryFee)}</div>`:''}
     </div>
-    <div class="tk-items">${o.items.map(i=>`<div class="tk-item"><span class="tk-qty">×${i.qty}</span><span class="tk-item-name">${i.emoji} ${i.name}</span><span class="tk-item-price">${fmt(i.price*i.qty)}</span></div>`).join('')}</div>
+    <div class="tk-items">${(o.items||[]).map(i=>`<div class="tk-item"><span class="tk-qty">×${i.qty}</span><span class="tk-item-name">${i.emoji} ${i.name}</span><span class="tk-item-price">${fmt(i.price*i.qty)}</span></div>`).join('')}</div>
     ${o.notes?`<div class="tk-notes">📝 ${o.notes}</div>`:''}
     <div class="tk-footer">
       <span class="tk-timer${tCl}">⏱ ${fmtT(s)}</span>
-      <span class="tk-total">${fmt(o.total)}</span>
+      <span class="tk-total">${fmt(o.total||0)}</span>
       <div class="tk-actions">${acts}</div>
     </div>
   </div>`;
 }
-function moveOrder(id,status){
-  if(!orders[id])return;
-  orders[id].status=status;
-  if(!orders[id].statusTimes)orders[id].statusTimes={};
-  orders[id].statusTimes[status]=Date.now();
-  const idx=allOrders.findIndex(o=>o.id===id);
-  if(idx!==-1){allOrders[idx].status=status;allOrders[idx].statusTimes=orders[id].statusTimes;}
-  renderKanban();updateStats();
-  saveOrder(orders[id]);
-  if(status==='done'){hideFab();setTimeout(clearOrder,3600000);}
-  if(activeTrackerOrderId===id)renderTracker(orders[id]);
-  if(status==='ready')toast('✅ Pedido #'+String(id).padStart(3,'0')+' listo');
-  if(status==='done') toast('📦 Pedido #'+String(id).padStart(3,'0')+' entregado');
+
+async function moveOrder(fbKey, status){
+  if(!fbReady||!window._fb){toast('⚠️ Sin conexión Firebase');return;}
+  try{
+    await window._fb.updateStatus(fbKey, status);
+    /* El cambio llega de vuelta via _onFirebaseOrders automáticamente */
+    if(status==='ready')toast('✅ Pedido listo');
+    if(status==='done') toast('📦 Pedido entregado');
+  }catch(e){
+    console.error('Error actualizando pedido:',e);
+    toast('❌ Error al actualizar el pedido');
+  }
 }
+
 function updateStats(){
   const done=allOrders.filter(o=>o.status==='done');
-  const rev=done.reduce((a,b)=>a+b.total,0);
+  const rev=done.reduce((a,b)=>a+(b.total||0),0);
   document.getElementById('sum-total').textContent=allOrders.length;
   document.getElementById('sum-local').textContent=allOrders.filter(o=>o.delivery==='local').length;
   document.getElementById('sum-take').textContent=allOrders.filter(o=>o.delivery==='takeaway').length;
@@ -1352,7 +1511,7 @@ function updateStats(){
   document.getElementById('sum-rev2').textContent=fmt(rev);
   document.getElementById('st-rev').textContent=fmt(rev);
   const counts={};
-  allOrders.forEach(o=>o.items.forEach(i=>{counts[i.name]=counts[i.name]||{emoji:i.emoji,n:0};counts[i.name].n+=i.qty;}));
+  allOrders.forEach(o=>(o.items||[]).forEach(i=>{counts[i.name]=counts[i.name]||{emoji:i.emoji,n:0};counts[i.name].n+=i.qty;}));
   const sorted=Object.entries(counts).sort((a,b)=>b[1].n-a[1].n).slice(0,5);
   const max=sorted[0]?.[1].n||1;
   const tp=document.getElementById('topProds');
