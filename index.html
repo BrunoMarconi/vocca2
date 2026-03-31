@@ -486,6 +486,9 @@ footer{background:var(--black);color:#888;padding:40px 80px;border-top:1px solid
   .tka{padding:8px 10px;}
 }
 </style>
+<!-- Firebase -->
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.5.0/firebase-database.js"></script>
 </head>
 <body>
 
@@ -1205,8 +1208,15 @@ function renderTracker(order){
    TRACKER PERSISTENCE
 ══════════════════════════════════════════════ */
 const ORDER_KEY='vocca_order';
-function saveOrder(o){try{localStorage.setItem(ORDER_KEY,JSON.stringify(o));}catch(e){}}
-function loadOrder(){try{const r=localStorage.getItem(ORDER_KEY);return r?JSON.parse(r):null;}catch(e){return null;}}
+function saveOrder(o){
+  try{localStorage.setItem(ORDER_KEY,JSON.stringify(o));}catch(e){}
+  if(db){
+    db.ref('orders/'+o.id).set(o).catch(e=>console.error('Error Firebase saveOrder:',e));
+  }
+}
+function loadOrder(){
+  try{const r=localStorage.getItem(ORDER_KEY);return r?JSON.parse(r):null;}catch(e){return null;}
+}
 function clearOrder(){try{localStorage.removeItem(ORDER_KEY);}catch(e){}}
 function showFab(){const f=document.getElementById('trackFab');if(f)f.classList.add('visible');}
 function hideFab(){const f=document.getElementById('trackFab');if(f)f.classList.remove('visible');}
@@ -1249,7 +1259,55 @@ document.addEventListener('click',function(e){
    KITCHEN ADMIN
 ══════════════════════════════════════════════ */
 let orders={},orderCounter=0,soundOn=true,allOrders=[],alertTimer=null;
-function openAdmin(){document.getElementById('adminPanel').classList.add('open');startClock();renderKanban();updateStats();}
+let db=null,fbInited=false;
+
+/* Firebase Config - REEMPLAZA CON TUS CREDENCIALES */
+const firebaseConfig = {
+  apiKey: 'YOUR_API_KEY',
+  authDomain: 'your-project.firebaseapp.com',
+  databaseURL: 'https://your-project.firebaseio.com',
+  projectId: 'your-project-id',
+  storageBucket: 'your-project.appspot.com',
+  messagingSenderId: 'YOUR_MESSAGING_ID',
+  appId: 'YOUR_APP_ID'
+};
+
+function initFirebase(){
+  if(fbInited)return;
+  try{
+    const app = firebase.initializeApp(firebaseConfig);
+    db = firebase.database(app);
+    fbInited = true;
+    console.log('Firebase inicializado');
+  }catch(e){
+    console.error('Error Firebase:',e);
+    toast('⚠️ Error conexión Firebase. Pedidos locales solo.');
+  }
+}
+
+function openAdmin(){
+  document.getElementById('adminPanel').classList.add('open');
+  startClock();
+  initFirebase();
+  if(db){
+    db.ref('orders').on('value',snap=>{
+      const data=snap.val();
+      if(!data)return;
+      orders={};
+      allOrders=[];
+      Object.entries(data).forEach(([id,o])=>{
+        o.id=parseInt(id);
+        orders[o.id]=o;
+        allOrders.push(o);
+        if(o.id>orderCounter)orderCounter=o.id;
+      });
+      renderKanban();
+      updateStats();
+    });
+  }
+  renderKanban();
+  updateStats();
+}
 function closeAdmin(){document.getElementById('adminPanel').classList.remove('open');}
 function startClock(){
   clearInterval(window._clk);
@@ -1268,6 +1326,9 @@ function startClock(){
 function fmtT(s){return Math.floor(s/60)+':'+String(s%60).padStart(2,'0')+' min';}
 function addKitchenOrder(order){
   orders[order.id]=order;allOrders.push(order);
+  if(db){
+    db.ref('orders/'+order.id).set(order).catch(e=>console.error('Error guardando orden:',e));
+  }
   renderKanban();updateStats();flashAlert();if(soundOn)beep();
 }
 const DN=['Laura García','Marcos Ruiz','Sofía Jiménez','Pablo López','Ana Martínez'];
@@ -1334,8 +1395,10 @@ function moveOrder(id,status){
   orders[id].statusTimes[status]=Date.now();
   const idx=allOrders.findIndex(o=>o.id===id);
   if(idx!==-1){allOrders[idx].status=status;allOrders[idx].statusTimes=orders[id].statusTimes;}
+  if(db){
+    db.ref('orders/'+id).update({status:status,statusTimes:orders[id].statusTimes}).catch(e=>console.error('Error actualizando orden:',e));
+  }
   renderKanban();updateStats();
-  saveOrder(orders[id]);
   if(status==='done'){hideFab();setTimeout(clearOrder,3600000);}
   if(activeTrackerOrderId===id)renderTracker(orders[id]);
   if(status==='ready')toast('✅ Pedido #'+String(id).padStart(3,'0')+' listo');
