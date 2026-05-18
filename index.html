@@ -45,164 +45,178 @@ window._fb.listenOrders(data => {
 
 <style>
 :root{
-  --bg:#111111;--bg2:#181818;--bg3:#222222;
-  --border:#2e2e2e;
-  --text:#f2ede8;--text2:#9a9088;--text3:#5a5450;
-  --gold:#e07240;--gold2:#e88a5a;
-  /* compat aliases */
-  --cream:#111111;--black:#111111;--dark:#f2ede8;--gray:#888;--lgray:#2e2e2e;--white:#222222;
+  --bg:#0c0c0c;--bg2:#141414;--bg3:#1e1e1e;
+  --border:#282828;
+  --text:#ffffff;--text2:#888888;--text3:#444444;
+  --gold:#e07240;--gold2:#f08050;
+  --accent:#e07240;--accent2:#f08050;
+  --cream:#0c0c0c;--black:#0c0c0c;--dark:#ffffff;--gray:#888;--lgray:#282828;--white:#1e1e1e;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(13,13,13,.96);backdrop-filter:blur(12px);
-  display:flex;align-items:center;justify-content:space-between;
-  padding:0 40px;height:56px;border-bottom:1px solid var(--border);}
-.nav-logo{font-family:'DM Sans',sans-serif;font-size:1.15rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--text);}
-.nav-links{display:flex;gap:28px;list-style:none;}
-.nav-links a{text-decoration:none;font-size:.82rem;color:var(--text2);transition:color .2s;}
-.nav-links a:hover{color:var(--gold);}
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.92);backdrop-filter:blur(20px);display:flex;align-items:center;justify-content:space-between;padding:0 52px;height:64px;border-bottom:1px solid rgba(255,255,255,.055);}
+.nav-logo{font-family:'DM Sans',sans-serif;font-size:.9rem;font-weight:800;letter-spacing:.25em;text-transform:uppercase;color:#fff;}
+.nav-links{display:flex;gap:36px;list-style:none;}
+.nav-links a{text-decoration:none;font-size:.7rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:rgba(255,255,255,.38);transition:color .2s;}
+.nav-links a:hover{color:#fff;}
 .nav-right{display:flex;align-items:center;gap:10px;}
-.btn-pedir-nav{background:var(--gold);color:#fff;border:none;border-radius:8px;padding:8px 18px;font-size:.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:background .2s;}
-.btn-pedir-nav:hover{background:var(--gold2);}
-.cart-btn{background:none;border:1.5px solid var(--border);border-radius:8px;padding:6px 14px;font-size:.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;color:var(--text2);transition:border-color .2s,color .2s;}
-.cart-btn:hover{border-color:var(--gold);color:var(--gold);}
-.cart-count{background:var(--gold);color:#0d0d0d;border-radius:50%;width:18px;height:18px;font-size:.68rem;display:flex;align-items:center;justify-content:center;font-weight:700;}
-.btn-admin-nav{background:none;border:1.5px solid var(--border);border-radius:30px;padding:6px 14px;font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text3);transition:all .2s;}
-.btn-admin-nav:hover{border-color:var(--text2);color:var(--text2);}
+.btn-pedir-nav{background:#fff;color:#0c0c0c;border:none;border-radius:4px;padding:9px 22px;font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s,color .2s;}
+.btn-pedir-nav:hover{background:var(--gold);color:#fff;}
+.cart-btn{display:none;}
+.cart-count{display:none;}
+.btn-admin-nav{background:none;border:1px solid rgba(255,255,255,.1);border-radius:4px;padding:7px 14px;font-size:.68rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:rgba(255,255,255,.25);transition:all .2s;}
+.btn-admin-nav:hover{border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.5);}
 .hamburger{display:none;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:6px;}
-.hamburger span{display:block;width:22px;height:2px;background:var(--text);border-radius:2px;transition:all .3s;}
+.hamburger span{display:block;width:22px;height:2px;background:#fff;border-radius:2px;transition:all .3s;}
 .hamburger.open span:nth-child(1){transform:translateY(7px) rotate(45deg);}
 .hamburger.open span:nth-child(2){opacity:0;}
 .hamburger.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg);}
 .fb-dot{width:8px;height:8px;border-radius:50%;background:#555;display:inline-block;margin-right:6px;transition:background .4s;}
 .fb-dot.connected{background:#28c76f;animation:blink 2s infinite;}
-.mob-menu{display:none;position:fixed;top:56px;left:0;right:0;background:var(--bg2);border-bottom:1px solid var(--border);z-index:999;flex-direction:column;padding:8px 24px 20px;box-shadow:0 8px 32px rgba(0,0,0,.5);}
+.mob-menu{display:none;position:fixed;top:64px;left:0;right:0;background:rgba(8,8,8,.98);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.055);z-index:999;flex-direction:column;padding:8px 28px 28px;box-shadow:0 8px 40px rgba(0,0,0,.7);}
 .mob-menu.open{display:flex;}
-.mob-menu a{text-decoration:none;color:var(--text);font-size:1rem;padding:13px 0;border-bottom:1px solid var(--border);font-weight:500;}
-.mob-menu a:hover{color:var(--gold);}
-.mob-menu-btns{display:flex;gap:10px;margin-top:14px;}
+.mob-menu a{text-decoration:none;color:rgba(255,255,255,.72);font-size:.95rem;font-weight:500;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06);transition:color .2s;}
+.mob-menu a:hover{color:#fff;}
+.mob-menu-btns{display:flex;gap:10px;margin-top:18px;}
 .mob-menu-btns button{flex:1;}
-.mob-bar{display:none;position:fixed;bottom:0;left:0;right:0;background:var(--bg2);border-top:1px solid var(--border);padding:10px 16px;gap:10px;z-index:1100;box-shadow:0 -4px 24px rgba(0,0,0,.4);}
-.mob-bar-cart{background:none;border:1.5px solid var(--border);border-radius:14px;padding:12px 18px;font-size:.9rem;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:6px;white-space:nowrap;color:var(--text2);transition:border-color .2s,color .2s;}
-.mob-bar-cart:hover{border-color:var(--gold);color:var(--gold);}
-.mob-bar-order{flex:1;background:var(--gold);color:#fff;border:none;border-radius:10px;padding:14px;font-size:.95rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:background .2s;}
-.mob-bar-order:hover{background:var(--gold2);}
+.mob-bar{display:none;}
 
 /* HERO */
-.hero{margin-top:56px;min-height:92vh;background:var(--bg);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:60px 40px 40px;text-align:center;position:relative;overflow:hidden;}
-.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 0%,rgba(224,114,64,.05) 0%,transparent 65%);pointer-events:none;}
-.hero-label{display:none;}
-.hero-eyebrow{font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;color:var(--text2);margin-bottom:20px;font-weight:500;}
-.hero h1{font-family:'Playfair Display',serif;font-size:5rem;line-height:1.0;margin-bottom:20px;color:var(--text);max-width:800px;}
-.hero h1 em{color:var(--text);font-style:normal;}
-.hero p{font-size:.95rem;color:var(--text2);line-height:1.75;max-width:480px;margin:0 auto 34px;}
-.hero-btns{display:flex;gap:10px;justify-content:center;margin-bottom:52px;}
-.btn-outline{background:none;border:1.5px solid var(--border);color:var(--text);border-radius:10px;padding:12px 26px;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
-.btn-outline:hover{border-color:var(--gold);color:var(--gold);}
-.btn-fill{background:var(--gold);color:#fff;border:none;border-radius:10px;padding:12px 26px;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:background .2s;}
-.btn-fill:hover{background:var(--gold2);}
-.hero-img{border-radius:22px;overflow:hidden;width:100%;max-width:720px;height:440px;position:relative;border:1px solid var(--border);}
-.hero-img-ph{width:100%;height:100%;background:linear-gradient(160deg,#1a1208 0%,#2d1f0a 50%,#0d0a06 100%);display:flex;align-items:center;justify-content:center;font-size:10rem;}
+.hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;background:#080808;}
+.hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1568901346375-23c9450c58cd?auto=format&fit=crop&w=1920&q=80');background-size:cover;background-position:center 28%;}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.9) 0%,rgba(0,0,0,.62) 48%,rgba(0,0,0,.1) 100%),linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 45%);}
+.hero-content{position:relative;z-index:2;width:100%;max-width:1280px;margin:0 auto;padding:0 84px 120px;}
+.hero-eyebrow{font-size:.62rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:block;}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3.4rem,7.5vw,6.6rem);line-height:.92;color:#fff;margin-bottom:28px;max-width:700px;font-weight:900;}
+.hero h1 em{font-style:italic;color:#fff;}
+.hero p{font-size:.92rem;color:rgba(255,255,255,.58);line-height:1.8;max-width:380px;margin-bottom:48px;}
+.hero-btns{display:flex;gap:12px;align-items:center;}
+.btn-fill{background:#fff;color:#0c0c0c;border:none;border-radius:4px;padding:15px 38px;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s,color .2s;}
+.btn-fill:hover{background:var(--gold);color:#fff;}
+.btn-outline{background:none;border:1.5px solid rgba(255,255,255,.28);color:rgba(255,255,255,.78);border-radius:4px;padding:14px 38px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
+.btn-outline:hover{border-color:#fff;color:#fff;}
+.hero-scroll{position:absolute;bottom:44px;right:84px;z-index:2;display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.25);font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;writing-mode:vertical-rl;}
+.hero-scroll::before{content:'';width:1px;height:52px;background:rgba(255,255,255,.15);display:block;}
 
-section{padding:80px 40px;}
-.section-label{font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text3);margin-bottom:10px;font-weight:600;}
-.section-title{font-family:'Playfair Display',serif;font-size:2.4rem;line-height:1.12;margin-bottom:12px;max-width:420px;color:var(--text);}
-.section-sub{font-size:.88rem;color:var(--text2);line-height:1.7;max-width:500px;}
+/* section base */
+section{padding:100px 84px;}
+.section-label{font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,3.8vw,3.6rem);line-height:1.03;color:#fff;margin-bottom:16px;}
+.section-sub{font-size:.87rem;color:var(--text2);line-height:1.78;max-width:480px;}
 
-/* MENU */
-.menu-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:28px;}
-.menu-badge{background:var(--gold);color:#fff;border-radius:6px;padding:5px 12px;font-size:.75rem;font-weight:700;}
-.menu-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:28px;}
-.tab{border:1.5px solid var(--border);background:transparent;border-radius:8px;padding:7px 16px;font-size:.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;color:var(--text2);transition:all .2s;white-space:nowrap;}
-.tab.active,.tab:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
-.menu-hint{font-size:.75rem;color:var(--text3);margin-bottom:24px;}
-.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.product-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;overflow:hidden;transition:transform .2s,box-shadow .2s,border-color .2s;}
-.product-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.6);border-color:#363330;}
-.product-img{height:200px;position:relative;background:linear-gradient(155deg,#1a1208,#2d1f0a,#111);display:flex;align-items:center;justify-content:center;font-size:3rem;}
-.product-badge{position:absolute;top:10px;left:10px;background:var(--gold);color:#0d0d0d;border-radius:20px;padding:3px 10px;font-size:.68rem;font-weight:700;}
-.product-body{padding:16px;}
-.product-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
-.product-name{font-weight:600;font-size:.9rem;color:var(--text);}
-.product-price{font-weight:700;font-size:.95rem;color:var(--gold);}
-.product-desc{font-size:.78rem;color:var(--text2);line-height:1.5;margin-bottom:14px;}
-.product-actions{display:flex;gap:8px;}
-.btn-ver{background:var(--gold);color:#fff;border:none;border-radius:8px;padding:7px 14px;font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:600;transition:background .2s;}
-.btn-ver:hover{background:var(--gold2);}
-.btn-add{background:none;border:1.5px solid var(--border);color:var(--text2);border-radius:8px;padding:7px 14px;font-size:.75rem;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
-.btn-add:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+/* CARTA SPLIT */
+.carta-split{display:grid;grid-template-columns:380px 1fr;background:var(--bg);border-top:1px solid rgba(255,255,255,.055);}
+.carta-split-left{background:var(--bg2);padding:90px 60px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(255,255,255,.055);}
+.carta-split-right{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;}
+.cat-card{position:relative;overflow:hidden;cursor:pointer;min-height:270px;}
+.cat-card-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .75s ease;}
+.cat-card:hover .cat-card-bg{transform:scale(1.08);}
+.cat-card::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.82) 0%,rgba(0,0,0,.06) 58%);transition:opacity .3s;}
+.cat-card:hover::after{background:linear-gradient(to top,rgba(0,0,0,.88) 0%,rgba(0,0,0,.28) 58%);}
+.cat-card-label{position:absolute;bottom:24px;left:24px;z-index:1;color:#fff;font-size:.68rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;}
+.cat-card-border{border:.5px solid rgba(255,255,255,.055);}
+.carta-link{background:none;border:none;border-bottom:1px solid rgba(255,255,255,.18);color:rgba(255,255,255,.45);font-size:.7rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0 0 4px;margin-top:44px;display:inline-block;transition:color .2s,border-color .2s;}
+.carta-link:hover{color:#fff;border-color:rgba(255,255,255,.45);}
 
 /* WHY */
-.why-section{padding:0 !important;background:var(--bg);}
-.why-inner{max-width:1100px;margin:0 auto;padding:80px 40px;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;}
-.why-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px;}
-.why-card{border-top:1px solid var(--border);padding-top:16px;}
-.why-card h4{font-weight:600;font-size:.9rem;margin-bottom:6px;color:var(--text);}
-.why-card p{font-size:.8rem;color:var(--text2);line-height:1.6;}
-.why-imgs{display:grid;grid-template-rows:1fr 1fr;grid-template-columns:1fr 1fr;gap:12px;height:440px;}
-.why-img-main{grid-row:1/-1;border-radius:16px;overflow:hidden;}
-.why-img-main div,.why-img-sm div{width:100%;height:100%;background:linear-gradient(155deg,#1a1208,#2d1f0a);display:flex;align-items:center;justify-content:center;font-size:2.5rem;border-radius:16px;}
-.why-img-sm{border-radius:16px;overflow:hidden;}
+.why-section{padding:0 !important;background:var(--bg);border-top:1px solid rgba(255,255,255,.055);}
+.why-inner{max-width:1280px;margin:0 auto;padding:100px 84px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
+.why-pillars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:52px;border-top:1px solid var(--border);}
+.why-col{padding:28px 28px 28px 0;border-right:1px solid var(--border);}
+.why-col:last-child{border-right:none;padding-left:28px;padding-right:0;}
+.why-col:first-child{padding-left:0;}
+.why-col-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:rgba(255,255,255,.06);margin-bottom:10px;line-height:1;}
+.why-col h4{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:7px;letter-spacing:.02em;}
+.why-col p{font-size:.78rem;color:var(--text2);line-height:1.68;}
+.why-imgs{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;height:500px;}
+.why-img-main{grid-row:1/-1;border-radius:10px;overflow:hidden;background-image:url('https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80');background-size:cover;background-position:center;}
+.why-img-sm{border-radius:10px;overflow:hidden;}
+.why-img-sm:first-of-type{background-image:url('https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80');background-size:cover;background-position:center;}
+.why-img-sm:last-of-type{background-image:url('https://images.unsplash.com/photo-1529179765090-62ac2947c77d?auto=format&fit=crop&w=600&q=80');background-size:cover;background-position:center;}
 
-/* VIVE SECTION */
-.vive-section{background:var(--bg2);padding:100px 40px;text-align:center;position:relative;overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
-.vive-section::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 60% 80% at 50% 50%,rgba(224,114,64,.03) 0%,transparent 70%);pointer-events:none;}
-.vive-section .section-label{display:block;text-align:center;}
-.vive-section .section-title{font-size:3rem;max-width:640px;margin:0 auto 16px;text-align:center;}
-.vive-section .section-sub{max-width:580px;margin:0 auto 36px;text-align:center;}
-.vive-imgs{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:900px;margin:0 auto 40px;position:relative;z-index:1;}
-.vive-img{border-radius:14px;overflow:hidden;height:200px;background:linear-gradient(155deg,#1a1208,#2d1f0a);display:flex;align-items:center;justify-content:center;font-size:3.5rem;border:1px solid var(--border);}
+/* VIVE (MANZO STYLE) */
+.vive-section{position:relative;min-height:82vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 !important;border-top:1px solid rgba(255,255,255,.04);}
+.vive-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&w=1920&q=80');background-size:cover;background-position:center;}
+.vive-bg::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.64);}
+.vive-content{position:relative;z-index:1;text-align:center;padding:100px 40px;max-width:900px;}
+.vive-section .section-title{font-size:clamp(3rem,6.5vw,5.8rem);line-height:.93;max-width:100%;margin:0 auto 22px;}
+.vive-section .section-sub{max-width:520px;margin:0 auto 48px;}
+.vive-link{background:none;border:none;border-bottom:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.45);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0 0 4px;transition:color .2s,border-color .2s;}
+.vive-link:hover{color:#fff;border-color:rgba(255,255,255,.5);}
+
+/* MENU */
+.menu-section-wrap{background:var(--bg);border-top:1px solid var(--border);}
+.menu-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;}
+.menu-badge{background:var(--gold);color:#fff;border-radius:4px;padding:5px 12px;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;}
+.menu-tabs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:32px;}
+.tab{border:1px solid rgba(255,255,255,.1);background:transparent;border-radius:4px;padding:9px 20px;font-size:.68rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;color:rgba(255,255,255,.35);transition:all .2s;white-space:nowrap;}
+.tab.active,.tab:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+.menu-hint{font-size:.72rem;color:var(--text3);margin-bottom:28px;}
+.products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.product-card{background:var(--bg2);transition:background .2s;cursor:pointer;}
+.product-card:hover{background:var(--bg3);}
+.product-img{height:200px;position:relative;background:#181818;display:flex;align-items:center;justify-content:center;}
+.product-badge{position:absolute;top:12px;left:12px;background:var(--gold);color:#fff;border-radius:3px;padding:3px 10px;font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;}
+.product-body{padding:20px 22px;}
+.product-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
+.product-name{font-weight:600;font-size:.9rem;color:#fff;}
+.product-price{font-weight:700;font-size:.92rem;color:var(--gold);}
+.product-desc{font-size:.77rem;color:var(--text2);line-height:1.55;margin-bottom:16px;}
+.product-actions{display:flex;gap:8px;}
+.btn-ver{background:rgba(255,255,255,.05);color:rgba(255,255,255,.58);border:1px solid rgba(255,255,255,.09);border-radius:4px;padding:8px 16px;font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:all .2s;}
+.btn-ver:hover{background:var(--gold);color:#fff;border-color:var(--gold);}
+.btn-add{display:none;}
 
 /* REVIEWS */
-.reviews-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:32px;}
+.reviews-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;}
 .rating-big{text-align:right;}
-.rating-num{font-family:'Playfair Display',serif;font-size:3rem;font-weight:800;color:var(--gold);}
-.rating-stars{color:var(--gold);font-size:1.1rem;}
-.rating-count{font-size:.78rem;color:var(--text2);margin-top:2px;}
-.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.review-card{background:var(--bg2);border:1px solid var(--border);border-radius:16px;padding:24px;transition:border-color .2s;}
-.review-card:hover{border-color:#363330;}
-.review-stars{color:var(--gold);font-size:.9rem;margin-bottom:12px;}
-.review-text{font-size:.83rem;color:var(--text2);line-height:1.65;margin-bottom:16px;font-style:italic;}
-.review-author{font-weight:600;font-size:.85rem;color:var(--text);}
-.review-role{font-size:.75rem;color:var(--text3);margin-top:2px;}
+.rating-num{font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:800;color:#fff;line-height:1;}
+.rating-stars{color:var(--gold);font-size:.95rem;margin-top:5px;letter-spacing:3px;}
+.rating-count{font-size:.72rem;color:var(--text2);margin-top:6px;}
+.reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.review-card{background:var(--bg2);padding:36px 30px;transition:background .2s;}
+.review-card:hover{background:var(--bg3);}
+.review-stars{color:var(--gold);font-size:.85rem;margin-bottom:16px;letter-spacing:3px;}
+.review-text{font-size:.84rem;color:rgba(255,255,255,.58);line-height:1.78;margin-bottom:22px;font-style:italic;}
+.review-author{font-weight:700;font-size:.87rem;color:#fff;}
+.review-role{font-size:.71rem;color:var(--text3);margin-top:3px;}
 
 /* CONTACT */
-.contact-section{background:var(--bg2);color:var(--text);padding:72px 40px !important;border-top:1px solid var(--border);}
-.contact-inner{max-width:1100px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;}
-.contact-section .section-label{color:var(--text3);}
-.contact-section .section-title{color:var(--text);max-width:400px;font-size:2.6rem;}
-.contact-section>div>p,.contact-desc{color:var(--text2);font-size:.9rem;line-height:1.7;margin-bottom:28px;max-width:440px;}
-.contact-btns{display:flex;gap:10px;margin-bottom:36px;flex-wrap:wrap;}
-.btn-co{border:1.5px solid var(--border);color:var(--text);background:none;border-radius:10px;padding:11px 22px;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;transition:border-color .2s,color .2s;}
-.btn-co:hover{border-color:var(--gold);color:var(--gold);}
-.btn-cof{background:var(--gold);color:#fff;border:none;border-radius:10px;padding:11px 22px;font-size:.85rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:700;transition:background .2s;}
+.contact-section{background:var(--bg2) !important;padding:100px 84px !important;border-top:1px solid var(--border);}
+.contact-inner{max-width:1280px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:start;}
+.contact-section .section-label{color:var(--gold);}
+.contact-section .section-title{font-size:clamp(2rem,3vw,2.8rem);max-width:100%;}
+.contact-section>div>p,.contact-desc{font-size:.88rem;color:var(--text2);line-height:1.75;margin-bottom:32px;max-width:440px;}
+.contact-btns{display:flex;gap:10px;margin-bottom:40px;flex-wrap:wrap;}
+.btn-co{border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.68);background:none;border-radius:4px;padding:12px 24px;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
+.btn-co:hover{border-color:#fff;color:#fff;}
+.btn-cof{background:var(--gold);color:#fff;border:none;border-radius:4px;padding:12px 24px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;}
 .btn-cof:hover{background:var(--gold2);}
-.contact-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.info-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px 18px;display:flex;flex-direction:column;gap:4px;}
-.info-icon{font-size:1rem;margin-bottom:2px;}
-.info-label{font-size:.68rem;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;}
-.info-val{font-size:.84rem;line-height:1.45;color:var(--text2);font-weight:500;}
-.map-box{background:var(--bg3);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
-.map-title{font-weight:600;font-size:.9rem;color:var(--text);padding:18px 20px 0;}
-.map-ph{height:220px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text3);font-size:.82rem;margin:14px 14px 0;}
-.map-ph span{font-size:2.4rem;}
-.map-btns{display:flex;gap:10px;padding:14px 18px 18px;flex-wrap:wrap;}
-.map-btn{flex:1;min-width:100px;background:var(--bg2);border:1px solid var(--border);color:var(--text2);border-radius:8px;padding:10px 14px;font-size:.8rem;cursor:pointer;font-family:'DM Sans',sans-serif;font-weight:500;text-align:center;transition:border-color .2s,color .2s;}
-.map-btn:hover{border-color:var(--gold);color:var(--gold);}
-footer{background:var(--bg2);color:var(--text3);padding:40px 80px;border-top:1px solid var(--border);display:grid;grid-template-columns:2fr 1fr 1fr;gap:40px;}
-.footer-logo{font-family:'Playfair Display',serif;color:var(--gold);font-size:1.4rem;margin-bottom:12px;}
-.footer-desc{font-size:.8rem;line-height:1.65;max-width:260px;color:var(--text2);}
-.footer-col h5{color:var(--text2);font-size:.8rem;letter-spacing:.08em;text-transform:uppercase;margin-bottom:14px;}
+.contact-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.info-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;gap:4px;}
+.info-icon{font-size:.9rem;margin-bottom:4px;}
+.info-label{font-size:.62rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;}
+.info-val{font-size:.82rem;line-height:1.5;color:rgba(255,255,255,.62);font-weight:500;}
+.map-box{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px;overflow:hidden;}
+.map-title{font-weight:700;font-size:.84rem;color:#fff;padding:22px 24px 0;letter-spacing:.05em;text-transform:uppercase;}
+.map-ph{height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text3);font-size:.8rem;margin:16px;background:rgba(255,255,255,.012);border-radius:7px;border:1px solid rgba(255,255,255,.04);}
+.map-ph span{font-size:2.2rem;}
+.map-btns{display:flex;gap:8px;padding:0 16px 20px;flex-wrap:wrap;}
+.map-btn{flex:1;min-width:120px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.48);border-radius:4px;padding:10px 16px;font-size:.73rem;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
+.map-btn:hover{border-color:rgba(255,255,255,.22);color:#fff;}
+footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-top:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;}
+.footer-logo{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:800;letter-spacing:.25em;text-transform:uppercase;color:#fff;margin-bottom:14px;}
+.footer-desc{font-size:.78rem;line-height:1.78;max-width:280px;color:rgba(255,255,255,.28);}
+.footer-col h5{color:rgba(255,255,255,.32);font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;margin-bottom:18px;font-weight:700;}
 .footer-col ul{list-style:none;}
-.footer-col li{margin-bottom:8px;}
-.footer-col a{color:var(--text3);text-decoration:none;font-size:.82rem;transition:color .2s;}
-.footer-col a:hover{color:var(--gold);}
-.footer-bottom{background:var(--bg2);padding:16px 80px;border-top:1px solid var(--border);display:flex;justify-content:space-between;}
-.footer-bottom span{font-size:.75rem;color:var(--text3);}
+.footer-col li{margin-bottom:10px;}
+.footer-col a{color:rgba(255,255,255,.26);text-decoration:none;font-size:.8rem;transition:color .2s;}
+.footer-col a:hover{color:#fff;}
+.footer-bottom{background:#080808;padding:18px 84px;border-top:1px solid rgba(255,255,255,.04);display:flex;justify-content:space-between;}
+.footer-bottom span{font-size:.7rem;color:rgba(255,255,255,.18);}
 
 /* CART */
 .cart-overlay{position:fixed;inset:0;background:rgba(0,0,0,.7);z-index:2000;opacity:0;pointer-events:none;transition:opacity .3s;}
@@ -450,42 +464,53 @@ footer{background:var(--bg2);color:var(--text3);padding:40px 80px;border-top:1px
 .rev-label{font-size:.68rem;color:#555;margin-bottom:10px;}
 
 /* RESPONSIVE */
-@media(max-width:900px){
-  nav{padding:0 20px;}
-  .nav-links,.nav-right .cart-btn,.btn-pedir-nav,.btn-admin-nav{display:none;}
+@media(max-width:1024px){
+  nav{padding:0 28px;}
+  .nav-links{gap:24px;}
+  .hero-content{padding:0 52px 100px;}
+  .hero-scroll{right:52px;}
+  section{padding:80px 52px;}
+  .why-inner{padding:80px 52px;gap:52px;}
+  .carta-split{grid-template-columns:320px 1fr;}
+  .carta-split-left{padding:70px 44px;}
+  .contact-section{padding:80px 52px !important;}
+  footer{padding:52px 52px;}
+  .footer-bottom{padding:16px 52px;}
+}
+@media(max-width:860px){
+  nav{padding:0 20px;height:58px;}
+  .nav-links,.btn-pedir-nav,.btn-admin-nav{display:none;}
   .hamburger{display:flex;}
-  .hero{padding:40px 24px 40px;min-height:auto;}
-  .hero h1{font-size:2.8rem;}
-  .hero-img{height:280px;max-width:100%;}
-  section{padding:52px 24px;}
-  .section-title{font-size:2rem;max-width:100%;}
+  .mob-menu{top:58px;}
+  .hero-content{padding:0 28px 90px;}
+  .hero-scroll{display:none;}
+  .hero h1{font-size:clamp(2.8rem,8vw,4.5rem);}
+  section{padding:64px 28px;}
+  .section-title{font-size:clamp(2rem,5vw,2.8rem);}
+  .carta-split{grid-template-columns:1fr;grid-template-rows:auto auto;}
+  .carta-split-left{padding:60px 28px;border-right:none;border-bottom:1px solid rgba(255,255,255,.055);}
+  .carta-split-right{grid-template-columns:1fr 1fr;min-height:400px;}
+  .cat-card{min-height:180px;}
   .menu-header{flex-direction:column;align-items:flex-start;gap:12px;}
   .menu-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
   .menu-tabs::-webkit-scrollbar{display:none;}
-  .products-grid{grid-template-columns:1fr 1fr;gap:14px;}
-  .why-inner{grid-template-columns:1fr !important;gap:32px;padding:52px 24px;}
-  .why-imgs{height:240px;}
-  .vive-section{padding:60px 24px;}
-  .vive-section .section-title{font-size:2.2rem;}
-  .vive-imgs{grid-template-columns:1fr 1fr;gap:8px;}
-  .vive-imgs .vive-img:last-child{display:none;}
+  .products-grid{grid-template-columns:1fr 1fr;}
+  .why-inner{grid-template-columns:1fr;gap:40px;padding:64px 28px;}
+  .why-imgs{height:320px;}
+  .why-pillars{grid-template-columns:1fr;border:none;gap:0;}
+  .why-col{border-right:none;border-top:1px solid var(--border);padding:20px 0;}
+  .why-col:first-child{border-top:1px solid var(--border);}
+  .vive-section .section-title{font-size:clamp(2.4rem,7vw,4rem);}
+  .vive-content{padding:80px 28px;}
   .reviews-top{flex-direction:column;align-items:flex-start;gap:16px;}
   .rating-big{text-align:left;}
-  .reviews-grid{grid-template-columns:1fr;gap:14px;}
-  .contact-inner{grid-template-columns:1fr;gap:28px;}
-  .contact-section{padding:52px 24px !important;}
-  .contact-section .section-title{font-size:2rem;max-width:100%;}
+  .reviews-grid{grid-template-columns:1fr;}
+  .contact-inner{grid-template-columns:1fr;gap:32px;}
+  .contact-section{padding:64px 28px !important;}
   .contact-info-grid{grid-template-columns:1fr 1fr;}
-  footer{grid-template-columns:1fr;padding:36px 24px;gap:24px;}
+  footer{grid-template-columns:1fr;padding:48px 28px;gap:32px;}
   .footer-desc{max-width:100%;}
-  .footer-bottom{padding:14px 24px;flex-direction:column;gap:4px;text-align:center;}
-  .cart-overlay{z-index:2000;}
-  .cart-sidebar{width:100%;z-index:2001;}
-  .modal-overlay{padding:0;align-items:flex-end;z-index:3000;}
-  .modal{border-radius:20px 20px 0 0;max-height:93vh;padding:24px 20px 32px;}
-  .modal-overlay.open .modal{transform:scale(1) translateY(0);}
-  .form-row{grid-template-columns:1fr;gap:0;}
-  .addr-cp-row{grid-template-columns:1fr;gap:10px;}
+  .footer-bottom{padding:14px 28px;flex-direction:column;gap:6px;text-align:center;}
   #adminPanel{z-index:6000;}
   .adm-topbar{padding:0 14px;height:50px;}
   .adm-clock{display:none;}
@@ -499,24 +524,21 @@ footer{background:var(--bg2);color:var(--text3);padding:40px 80px;border-top:1px
   .prod-overlay{padding:0;align-items:flex-end;}
   .prod-modal-img{height:220px;}
   .prod-body{padding:20px 20px 24px;}
-  .track-fab{bottom:90px;right:16px;}
-  .payment-opts{grid-template-columns:1fr 1fr;}
+  .modal-overlay{padding:0;align-items:flex-end;}
+  .modal{border-radius:20px 20px 0 0;max-height:93vh;padding:24px 20px 32px;}
+  .form-row{grid-template-columns:1fr;gap:0;}
+  .addr-cp-row{grid-template-columns:1fr;gap:10px;}
 }
 @media(max-width:540px){
-  .hero h1{font-size:2rem;}
-  .hero-btns{flex-direction:column;gap:10px;align-items:center;}
-  .hero-btns button{width:100%;max-width:280px;}
-  .hero-img{height:220px;}
+  .hero h1{font-size:2.8rem;}
+  .hero-btns{flex-direction:column;gap:10px;}
+  .hero-btns button{width:100%;}
   .products-grid{grid-template-columns:1fr;}
-  .product-img{height:180px;}
-  .why-grid{grid-template-columns:1fr;gap:18px;}
-  .why-imgs{height:180px;}
+  .carta-split-right{grid-template-columns:1fr;min-height:auto;}
+  .cat-card{min-height:200px;}
   .contact-info-grid{grid-template-columns:1fr;}
   .contact-btns{flex-direction:column;}
   .contact-btns .btn-co,.contact-btns .btn-cof{width:100%;text-align:center;}
-  .delivery-opts{gap:7px;}
-  .dopt{padding:10px 6px;}
-  .dopt p{font-size:.7rem;}
   .adm-badge{display:none;}
   .adm-btn,.adm-btn-demo{font-size:.7rem;padding:6px 10px;}
   .tka{padding:8px 10px;}
@@ -530,12 +552,13 @@ footer{background:var(--bg2);color:var(--text3);padding:40px 80px;border-top:1px
   <div class="nav-logo">VOCCA</div>
   <ul class="nav-links">
     <li><a href="#">Inicio</a></li>
-    <li><a href="#menu">Carta</a></li>
-    <li><a href="#why">Sobre nosotros</a></li>
+    <li><a href="#carta">Carta</a></li>
+    <li><a href="#why">Nosotros</a></li>
     <li><a href="#reviews">Reseñas</a></li>
     <li><a href="#contact">Contacto</a></li>
   </ul>
   <div class="nav-right">
+    <button class="btn-pedir-nav" onclick="document.getElementById('carta').scrollIntoView({behavior:'smooth'})">Ver carta</button>
     <button class="btn-admin-nav" onclick="openAdmin()">⚙ Cocina</button>
     <button class="hamburger" id="hamburger" onclick="toggleMobMenu()"><span></span><span></span><span></span></button>
   </div>
@@ -543,8 +566,8 @@ footer{background:var(--bg2);color:var(--text3);padding:40px 80px;border-top:1px
 
 <div class="mob-menu" id="mobMenu">
   <a href="#" onclick="closeMobMenu()">Inicio</a>
-  <a href="#menu" onclick="closeMobMenu()">Carta</a>
-  <a href="#why" onclick="closeMobMenu()">Sobre nosotros</a>
+  <a href="#carta" onclick="closeMobMenu()">Carta</a>
+  <a href="#why" onclick="closeMobMenu()">Nosotros</a>
   <a href="#reviews" onclick="closeMobMenu()">Reseñas</a>
   <a href="#contact" onclick="closeMobMenu()">Contacto</a>
   <div class="mob-menu-btns">
@@ -625,88 +648,126 @@ footer{background:var(--bg2);color:var(--text3);padding:40px 80px;border-top:1px
 
 <!-- HERO -->
 <section class="hero">
-  <div class="hero-eyebrow">Urban Food · Alhaurín de la Torre</div>
-  <h1>Sabor real,<br>sin complicaciones</h1>
-  <p>Shawarmas, burgers y platos con identidad propia. Producto fresco, elaboración cuidada.</p>
-  <div class="hero-btns">
-    <button class="btn-outline" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver carta</button>
-    <button class="btn-fill" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contacto</button>
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <span class="hero-eyebrow">Urban Food · Alhaurín de la Torre</span>
+    <h1>Comida urbana.<br><em>Sabor que vuelve.</em></h1>
+    <p>Shawarmas, smash burgers y platos hechos con producto cuidado y mucho sabor.</p>
+    <div class="hero-btns">
+      <button class="btn-fill" onclick="document.getElementById('carta').scrollIntoView({behavior:'smooth'})">Ver carta</button>
+      <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contacto</button>
+    </div>
   </div>
-  <div class="hero-img"><div class="hero-img-ph">🥙</div></div>
+  <div class="hero-scroll">Scroll</div>
 </section>
 
-<!-- MENU -->
-<section id="menu" style="background:var(--bg);">
-  <div style="max-width:1100px;margin:0 auto">
-    <div class="menu-header">
-      <div>
-        <div class="section-label">Carta</div>
-        <h2 class="section-title">Una carta pensada para abrir el apetito</h2>
-        <p class="section-sub" style="margin-top:10px">Shawarmas, burgers, entrantes y opciones frescas.</p>
-      </div>
-      <span class="menu-badge">Destacados</span>
-    </div>
-    <div class="menu-tabs" id="menuTabs">
-      <button class="tab active" data-cat="all">Destacados</button>
-      <button class="tab" data-cat="combos">Combos</button>
-      <button class="tab" data-cat="shawarmas">Shawarmas</button>
-      <button class="tab" data-cat="burgers">Burgers</button>
-      <button class="tab" data-cat="entrantes">Entrantes</button>
-      <button class="tab" data-cat="ensaladas">Ensaladas</button>
-      <button class="tab" data-cat="bebidas">Bebidas</button>
-    </div>
-    <p class="menu-hint">Pulsa en cualquier producto para ver más detalles.</p>
-    <div class="products-grid" id="productsGrid"></div>
+<!-- CARTA SPLIT -->
+<div class="carta-split" id="carta">
+  <div class="carta-split-left">
+    <span class="section-label">La carta</span>
+    <h2 class="section-title">Una carta<br>para pecar<br>bien.</h2>
+    <p class="section-sub" style="margin-top:16px">Shawarmas, smash burgers, bowls, entrantes y ensaladas con una estética cuidada y sabor potente.</p>
+    <button class="carta-link" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver carta completa →</button>
   </div>
-</section>
+  <div class="carta-split-right">
+    <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+      <div class="cat-card-bg" style="background-image:url('https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80')"></div>
+      <div class="cat-card-label">Shawarmas</div>
+    </div>
+    <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+      <div class="cat-card-bg" style="background-image:url('https://images.unsplash.com/photo-1553979459-d2229ba7433b?auto=format&fit=crop&w=800&q=80')"></div>
+      <div class="cat-card-label">Smash Burgers</div>
+    </div>
+    <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+      <div class="cat-card-bg" style="background-image:url('https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80')"></div>
+      <div class="cat-card-label">Entrantes</div>
+    </div>
+    <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
+      <div class="cat-card-bg" style="background-image:url('https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80')"></div>
+      <div class="cat-card-label">Bebidas</div>
+    </div>
+  </div>
+</div>
 
 <!-- WHY -->
 <section class="why-section" id="why">
   <div class="why-inner">
     <div>
-      <div class="section-label">Por qué Vocca</div>
-      <h2 class="section-title">Una forma más cuidada de hacer urban food</h2>
-      <p class="section-sub" style="margin-top:14px">VOCCA mezcla producto visual, una propuesta moderna y una experiencia más limpia, directa y actual.</p>
-      <div class="why-grid">
-        <div class="why-card"><h4>Producto cuidado</h4><p>Cada plato pensado para que el sabor se note de verdad.</p></div>
-        <div class="why-card"><h4>Fresco y sazonado</h4><p>Elaboración cuidada con ingredientes frescos siempre.</p></div>
-        <div class="why-card"><h4>Flexible y versátil</h4><p>Una carta para todos los paladares con identidad propia.</p></div>
-        <div class="why-card"><h4>Para cada momento</h4><p>Para llevar, a casa o para comer cómodamente en local.</p></div>
+      <span class="section-label">Por qué VOCCA</span>
+      <h2 class="section-title">Comida rápida,<br>pero <em>bien</em> hecha.</h2>
+      <p class="section-sub" style="margin-top:16px">VOCCA mezcla producto visual, una propuesta moderna y una experiencia directa y actual. Sin pretensiones, con mucho sabor.</p>
+      <div class="why-pillars">
+        <div class="why-col">
+          <div class="why-col-num">01</div>
+          <h4>Producto cuidado</h4>
+          <p>Ingredientes seleccionados y platos pensados para que el sabor se note de verdad.</p>
+        </div>
+        <div class="why-col">
+          <div class="why-col-num">02</div>
+          <h4>Sabor urbano</h4>
+          <p>Shawarmas, burgers y bowls con personalidad propia y elaboración cuidada.</p>
+        </div>
+        <div class="why-col">
+          <div class="why-col-num">03</div>
+          <h4>Para cada plan</h4>
+          <p>Local, take away o a domicilio. Tú eliges cómo vivir VOCCA.</p>
+        </div>
       </div>
     </div>
     <div class="why-imgs">
-      <div class="why-img-main"><div>🥙</div></div>
-      <div class="why-img-sm"><div style="font-size:2rem">🫕</div></div>
-      <div class="why-img-sm"><div style="font-size:2rem">🥗</div></div>
+      <div class="why-img-main"></div>
+      <div class="why-img-sm"></div>
+      <div class="why-img-sm"></div>
     </div>
   </div>
 </section>
 
-<!-- VIVE VOCCA -->
+<!-- VIVE VOCCA (Manzo style) -->
 <section class="vive-section">
-  <div class="section-label">Así se vive</div>
-  <h2 class="section-title">ASÍ SE VIVE VOCCA</h2>
-  <p class="section-sub">Aquí no solo cocinamos, creamos momentos. Mira, siente y saborea lo que es vivir VOCCA.</p>
-  <div class="vive-imgs">
-    <div class="vive-img">🥙</div>
-    <div class="vive-img">🍟</div>
-    <div class="vive-img">🥤</div>
+  <div class="vive-bg"></div>
+  <div class="vive-content">
+    <span class="section-label">Así se vive</span>
+    <h2 class="section-title">No es solo pedir comida.<br>Es vivir <em>VOCCA</em>.</h2>
+    <p class="section-sub">Burgers que entran por los ojos, shawarmas con carácter y platos que no parecen de compromiso.</p>
+    <button class="vive-link" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Síguenos en Instagram →</button>
   </div>
-  <button class="btn-outline" onclick="document.getElementById('why').scrollIntoView({behavior:'smooth'})">Conocernos</button>
+</section>
+
+<!-- MENU COMPLETO -->
+<section id="menu" class="menu-section-wrap">
+  <div style="max-width:1280px;margin:0 auto">
+    <div class="menu-header">
+      <div>
+        <span class="section-label">La carta completa</span>
+        <h2 class="section-title">Todo lo que<br>ofrecemos.</h2>
+        <p class="section-sub" style="margin-top:12px">Shawarmas, burgers, entrantes y opciones frescas. Pulsa en cualquier plato para ver más detalles.</p>
+      </div>
+      <span class="menu-badge">Destacados</span>
+    </div>
+    <div class="menu-tabs" id="menuTabs">
+      <button class="tab active" data-cat="all">Todos</button>
+      <button class="tab" data-cat="shawarmas">Shawarmas</button>
+      <button class="tab" data-cat="burgers">Burgers</button>
+      <button class="tab" data-cat="combos">Combos</button>
+      <button class="tab" data-cat="entrantes">Entrantes</button>
+      <button class="tab" data-cat="ensaladas">Ensaladas</button>
+      <button class="tab" data-cat="bebidas">Bebidas</button>
+    </div>
+    <div class="products-grid" id="productsGrid"></div>
+  </div>
 </section>
 
 <!-- REVIEWS -->
-<section id="reviews" style="background:var(--bg);">
-  <div style="max-width:1100px;margin:0 auto">
+<section id="reviews" style="background:var(--bg);border-top:1px solid var(--border);">
+  <div style="max-width:1280px;margin:0 auto">
     <div class="reviews-top">
       <div>
-        <div class="section-label">Opiniones</div>
-        <h2 class="section-title">Lo que hace que la gente vuelva</h2>
-        <p class="section-sub" style="margin-top:10px">Una experiencia que destaca por su producto, trato y propuesta.</p>
+        <span class="section-label">Opiniones</span>
+        <h2 class="section-title">Lo que hace<br>que la gente vuelva.</h2>
       </div>
       <div class="rating-big">
         <div class="rating-num">4.5</div>
-        <div class="rating-stars">★★★★½</div>
+        <div class="rating-stars">★★★★★</div>
         <div class="rating-count">Basado en 125 reseñas</div>
       </div>
     </div>
@@ -766,20 +827,31 @@ footer{background:var(--bg2);color:var(--text3);padding:40px 80px;border-top:1px
 <footer>
   <div>
     <div class="footer-logo">VOCCA</div>
-    <p class="footer-desc">Urban food con una propuesta más cuidada, moderna y pensada para disfrutar en local, para llevar o desde casa.</p>
+    <p class="footer-desc">Urban food con una propuesta más cuidada, moderna y pensada para disfrutar en local, para llevar o desde casa. Alhaurín de la Torre.</p>
   </div>
   <div class="footer-col">
     <h5>Navegación</h5>
-    <ul><li><a href="#">Inicio</a></li><li><a href="#menu">Carta</a></li><li><a href="#why">Sobre nosotros</a></li><li><a href="#reviews">Reseñas</a></li><li><a href="#contact">Contacto</a></li></ul>
+    <ul>
+      <li><a href="#">Inicio</a></li>
+      <li><a href="#carta">Carta</a></li>
+      <li><a href="#why">Nosotros</a></li>
+      <li><a href="#reviews">Reseñas</a></li>
+      <li><a href="#contact">Contacto</a></li>
+    </ul>
   </div>
   <div class="footer-col">
     <h5>Contacto</h5>
-    <ul><li><a href="#">900 313 111</a></li><li><a href="#">C. Guete, Local 7</a></li><li><a href="#">Alhaurín de la Torre, Málaga</a></li><li><a href="#">@voccaurbanlove</a></li></ul>
+    <ul>
+      <li><a href="#">900 313 111</a></li>
+      <li><a href="#">C. Guete, Local 7</a></li>
+      <li><a href="#">Alhaurín de la Torre, Málaga</a></li>
+      <li><a href="#">@vocca.urbanfood</a></li>
+    </ul>
   </div>
 </footer>
 <div class="footer-bottom">
-  <span>© 2025 VOCCA. Todos los derechos reservados.</span>
-  <span>Hecho con ❤️ en Málaga</span>
+  <span>© 2025 VOCCA Urban Food. Todos los derechos reservados.</span>
+  <span>Alhaurín de la Torre, Málaga</span>
 </div>
 
 <!-- PRODUCT MODAL (informativo) -->
