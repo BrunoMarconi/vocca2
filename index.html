@@ -749,10 +749,14 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
     <div class="menu-tabs" id="menuTabs">
       <button class="tab active" data-cat="all">Todos</button>
       <button class="tab" data-cat="shawarmas">Shawarmas</button>
-      <button class="tab" data-cat="burgers">Burgers</button>
-      <button class="tab" data-cat="combos">Combos</button>
+      <button class="tab" data-cat="burgers">Smash Burgers</button>
+      <button class="tab" data-cat="bowls">Bowls</button>
+      <button class="tab" data-cat="falafel">Falafel</button>
       <button class="tab" data-cat="entrantes">Entrantes</button>
+      <button class="tab" data-cat="guarniciones">Guarniciones</button>
       <button class="tab" data-cat="ensaladas">Ensaladas</button>
+      <button class="tab" data-cat="especiales">Especiales</button>
+      <button class="tab" data-cat="infantil">Infantil</button>
       <button class="tab" data-cat="bebidas">Bebidas</button>
     </div>
     <div class="products-grid" id="productsGrid"></div>
@@ -904,17 +908,59 @@ window._onFirebaseOrders=function(data){
    DATA
 ══════════════════════════════════════ */
 const PRODUCTS=[
-  {id:1,name:'Shawarma de Pollo',price:10.99,cat:'shawarmas',emoji:'🌯',desc:'Pan caliente, relleno generoso y sabor equilibrado.',badge:'Top ventas',tags:['Pollo','Pan artesano','Sin gluten opcional']},
-  {id:2,name:'Shawarma Mixto',price:13.70,cat:'shawarmas',emoji:'🌮',desc:'Una mezcla jugosa para una propuesta más plena.',badge:'Popular',tags:['Mixto','Cordero & Pollo','Bestseller']},
-  {id:3,name:'Truffle Burger',price:16.90,cat:'burgers',emoji:'🍔',desc:'Burger premium con trufa cremosa y sabor marcado.',badge:'Destacado',tags:['Trufa negra','Cheddar','Premium']},
-  {id:4,name:'Vocca Burger',price:14.90,cat:'burgers',emoji:'🍔',desc:'La burger de la casa, potente y con personalidad.',badge:null,tags:['Ternera','Salsa especial','Signature']},
-  {id:5,name:'Patatas Fritas Medianas',price:5.10,cat:'entrantes',emoji:'🍟',desc:'Crujientes y perfectas para acompañar.',badge:null,tags:['Patatas naturales','Crujientes','Vegano']},
-  {id:6,name:'Boniato Frito Crujiente',price:6.40,cat:'entrantes',emoji:'🍠',desc:'La alternativa más sip al acompañamiento clásico.',badge:'Favorito',tags:['Boniato','Sin lactosa','Vegano']},
-  {id:7,name:'Combo Shawarma + Bebida',price:13.50,cat:'combos',emoji:'🥤',desc:'Shawarma de tu elección + bebida a elegir.',badge:'Oferta',tags:['Shawarma','Refresco','Ahorro']},
-  {id:8,name:'Ensalada Fresca',price:7.90,cat:'ensaladas',emoji:'🥗',desc:'Ingredientes frescos con aliño de la casa.',badge:null,tags:['Fresca','Sin gluten','Vegano']},
-  {id:9,name:'Refresco',price:2.50,cat:'bebidas',emoji:'🥤',desc:'Coca-Cola, Fanta, Aquarius o agua.',badge:null,tags:['Frío','Sin azúcar opcional']},
+  /* ── SHAWARMAS ── */
+  {id:1,name:'Shawarma de Pollo',price:9.90,cat:'shawarmas',emoji:'🌯',desc:'150g de pollo jugoso en pan libanés, pita o tortita de maíz. Alérgenos: 1,7,8,9,10,11.',badge:'Top ventas',tags:['Pollo','Pan libanés','Pita disponible']},
+  {id:2,name:'Shawarma de Ternera',price:10.90,cat:'shawarmas',emoji:'🌯',desc:'150g de ternera en pan libanés, pita o tortita de maíz.',badge:null,tags:['Ternera','Pan libanés']},
+  {id:3,name:'Shawarma de Cordero',price:11.90,cat:'shawarmas',emoji:'🌯',desc:'150g de cordero en pan libanés, pita o tortita de maíz.',badge:null,tags:['Cordero','Pan libanés']},
+  {id:4,name:'Shawarma Mixto Pollo/Ternera',price:10.50,cat:'shawarmas',emoji:'🌯',desc:'Mezcla de pollo y ternera en pan libanés, pita o tortita de maíz.',badge:'Popular',tags:['Mixto','Pollo','Ternera']},
+  {id:5,name:'Shawarma Mixto Cordero/Pollo o Ternera',price:11.50,cat:'shawarmas',emoji:'🌯',desc:'Mezcla de cordero con pollo o ternera en pan libanés, pita o tortita de maíz.',badge:null,tags:['Mixto','Cordero']},
+  /* ── SMASH BURGERS ── */
+  {id:6,name:'Cheese Burger',price:11.50,cat:'burgers',emoji:'🍔',desc:'180g doble smash, queso fundido en pan brioche. Pan vegano o sin gluten +1€.',badge:null,tags:['Doble smash','Cheddar','Brioche']},
+  {id:7,name:'Classic Burger',price:11.90,cat:'burgers',emoji:'🍔',desc:'180g doble smash con los clásicos de siempre.',badge:null,tags:['Doble smash','Clásica']},
+  {id:8,name:'Truffle Burger',price:12.90,cat:'burgers',emoji:'🍔',desc:'180g doble smash con crema de trufa y queso fundido.',badge:'Destacado',tags:['Trufa','Premium']},
+  {id:9,name:'Vocca Burger',price:12.90,cat:'burgers',emoji:'🍔',desc:'La burger de la casa, con salsa especial VOCCA.',badge:'Signature',tags:['Salsa especial','Signature']},
+  {id:10,name:'Crunchy Chicken',price:11.90,cat:'burgers',emoji:'🍗',desc:'Pollo crujiente rebozado al estilo VOCCA.',badge:null,tags:['Pollo','Crujiente']},
+  {id:11,name:'Crunchy Korea',price:12.90,cat:'burgers',emoji:'🌶️',desc:'Pollo crujiente con salsa gochujang y slaw de col.',badge:'Picante',tags:['Pollo','Korea','Picante']},
+  {id:12,name:'Oklahoma Burger',price:11.90,cat:'burgers',emoji:'🍔',desc:'Doble smash con cebolla caramelizada estilo Oklahoma.',badge:null,tags:['Cebolla caramelizada','Doble smash']},
+  {id:13,name:'Veggie Burger',price:11.90,cat:'burgers',emoji:'🥦',desc:'Burger vegetal con todos los matices de la casa.',badge:'Vegano',tags:['Vegano','Plant-based']},
+  /* ── BOWLS ── */
+  {id:14,name:'Bowl de Pollo',price:11.95,cat:'bowls',emoji:'🥙',desc:'180g de pollo sobre base de arroz, patatas o ensalada.',badge:null,tags:['Pollo','Arroz','Bowl']},
+  {id:15,name:'Bowl de Ternera',price:12.95,cat:'bowls',emoji:'🥙',desc:'180g de ternera sobre base de arroz, patatas o ensalada.',badge:null,tags:['Ternera','Bowl']},
+  {id:16,name:'Bowl de Cordero',price:14.50,cat:'bowls',emoji:'🥙',desc:'180g de cordero sobre base de arroz, patatas o ensalada.',badge:null,tags:['Cordero','Bowl']},
+  {id:17,name:'Bowl Mixto Pollo/Ternera',price:12.50,cat:'bowls',emoji:'🥙',desc:'Mezcla de pollo y ternera sobre tu base favorita.',badge:'Popular',tags:['Mixto','Bowl']},
+  {id:18,name:'Bowl Mixto Cordero/Pollo o Ternera',price:14.00,cat:'bowls',emoji:'🥙',desc:'Mezcla de cordero con pollo o ternera sobre tu base favorita.',badge:null,tags:['Mixto','Cordero','Bowl']},
+  /* ── FALAFEL ── */
+  {id:19,name:'Falafel (4 uds)',price:5.50,cat:'falafel',emoji:'🧆',desc:'4 unidades de falafel crujiente con salsa.',badge:null,tags:['Vegano','Garbanzos','Sin gluten']},
+  {id:20,name:'Bowl Falafel',price:10.90,cat:'falafel',emoji:'🧆',desc:'Falafel sobre base de arroz, patatas o ensalada con salsas.',badge:null,tags:['Vegano','Bowl']},
+  {id:21,name:'Falafel Rollo / Pan Pita',price:8.50,cat:'falafel',emoji:'🧆',desc:'Falafel en rollo de pan o pan pita con verduras y salsa.',badge:null,tags:['Vegano','Pita']},
+  /* ── ENTRANTES ── */
+  {id:22,name:'Chicken Tenders (8 uds)',price:9.90,cat:'entrantes',emoji:'🍗',desc:'8 tiras de pollo crujiente con salsa para mojar.',badge:null,tags:['Pollo','Crujiente']},
+  {id:23,name:'Chicken Wings (8 uds)',price:9.50,cat:'entrantes',emoji:'🍗',desc:'8 alitas de pollo con salsa BBQ o picante.',badge:'Favorito',tags:['Alitas','BBQ']},
+  {id:24,name:'Tequeños (6 uds)',price:9.50,cat:'entrantes',emoji:'🧀',desc:'6 tequeños de queso crujientes con salsa.',badge:null,tags:['Queso','Crujiente']},
+  {id:25,name:'Tequeños Queso Azul (6 uds)',price:9.90,cat:'entrantes',emoji:'🧀',desc:'6 tequeños rellenos de queso azul fundido.',badge:null,tags:['Queso Azul','Crujiente']},
+  /* ── GUARNICIONES ── */
+  {id:26,name:'Patatas Fritas Medianas',price:3.90,cat:'guarniciones',emoji:'🍟',desc:'Patatas fritas crujientes, formato mediano.',badge:null,tags:['Patatas','Vegano']},
+  {id:27,name:'Patatas Fritas Grandes',price:5.90,cat:'guarniciones',emoji:'🍟',desc:'Patatas fritas crujientes, formato grande.',badge:null,tags:['Patatas','Vegano']},
+  {id:28,name:'Boniato Frito',price:4.90,cat:'guarniciones',emoji:'🍠',desc:'Boniato frito con un toque dulce y crujiente.',badge:'Favorito',tags:['Boniato','Vegano']},
+  {id:29,name:'Patatas Trufadas',price:7.90,cat:'guarniciones',emoji:'🍟',desc:'Patatas fritas con crema de trufa y queso parmesano.',badge:'Premium',tags:['Trufa','Parmesano']},
+  {id:30,name:'Patatas Cheddar & Bacon',price:7.90,cat:'guarniciones',emoji:'🍟',desc:'Patatas cargadas con cheddar fundido y bacon crujiente.',badge:null,tags:['Cheddar','Bacon']},
+  /* ── ENSALADAS ── */
+  {id:31,name:'Ensalada Aguacate Mango',price:10.95,cat:'ensaladas',emoji:'🥑',desc:'Aguacate, mango, mezclum y aliño de la casa.',badge:null,tags:['Aguacate','Mango','Vegano']},
+  {id:32,name:'Ensalada César',price:10.95,cat:'ensaladas',emoji:'🥗',desc:'Lechuga romana, pollo, crutones y salsa césar.',badge:null,tags:['César','Pollo']},
+  /* ── ESPECIALES ── */
+  {id:33,name:'Campero Afro',price:8.90,cat:'especiales',emoji:'🥪',desc:'Bocadillo campero con toque afro, lleno de sabor.',badge:null,tags:['Campero','Especial']},
+  {id:34,name:'Campero de Pollo',price:8.90,cat:'especiales',emoji:'🥪',desc:'Bocadillo campero clásico con pollo al estilo VOCCA.',badge:null,tags:['Campero','Pollo']},
+  {id:35,name:'Taco Francés',price:9.50,cat:'especiales',emoji:'🌮',desc:'Taco al estilo francés con ingredientes de primera.',badge:null,tags:['Taco','Especial']},
+  /* ── MENÚ INFANTIL ── */
+  {id:36,name:'Menú Infantil Nuggets',price:7.50,cat:'infantil',emoji:'🍗',desc:'Nuggets + patatas + agua, zumo o refresco (+1,50€).',badge:null,tags:['Infantil','Nuggets']},
+  {id:37,name:'Menú Infantil Fingers',price:7.50,cat:'infantil',emoji:'🍗',desc:'Fingers de pollo + patatas + agua, zumo o refresco (+1,50€).',badge:null,tags:['Infantil','Fingers']},
+  {id:38,name:'Menú Infantil Burger',price:7.90,cat:'infantil',emoji:'🍔',desc:'Burger infantil + patatas + agua, zumo o refresco (+1,50€).',badge:null,tags:['Infantil','Burger']},
+  /* ── BEBIDAS ── */
+  {id:39,name:'Refresco',price:2.50,cat:'bebidas',emoji:'🥤',desc:'Coca-Cola, Fanta, Sprite u otras opciones.',badge:null,tags:['Frío']},
+  {id:40,name:'Agua',price:2.00,cat:'bebidas',emoji:'💧',desc:'Agua mineral 500ml PET.',badge:null,tags:['Sin azúcar']},
+  {id:41,name:'Cerveza',price:3.00,cat:'bebidas',emoji:'🍺',desc:'Cerveza fría 500ml PET.',badge:null,tags:['Fría']},
 ];
-const CAT_LABELS={shawarmas:'Shawarmas',burgers:'Burgers',entrantes:'Entrantes',ensaladas:'Ensaladas',bebidas:'Bebidas',combos:'Combos'};
+const CAT_LABELS={shawarmas:'Shawarmas',burgers:'Smash Burgers',bowls:'Bowls',falafel:'Falafel',entrantes:'Entrantes',guarniciones:'Guarniciones',ensaladas:'Ensaladas',especiales:'Especiales',infantil:'Menú Infantil',bebidas:'Bebidas'};
 
 function fmt(n){return n.toFixed(2).replace('.',',')+' €';}
 
