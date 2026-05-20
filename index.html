@@ -86,8 +86,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.9
 
 /* HERO */
 .hero{position:relative;min-height:100vh;display:flex;align-items:flex-end;overflow:hidden;background:#080808;}
-.hero-bg{position:absolute;inset:0;background-image:url('vocca1.jpeg');background-size:cover;background-position:center 28%;}
-.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.9) 0%,rgba(0,0,0,.62) 48%,rgba(0,0,0,.1) 100%),linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 45%);}
+.hero-bg{position:absolute;inset:0;background-image:url('vocca1.jpeg');background-size:cover;background-position:center 55%;}
+.hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.78) 0%,rgba(0,0,0,.38) 52%,rgba(0,0,0,.05) 100%),linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 40%);}
 .hero-content{position:relative;z-index:2;width:100%;max-width:1280px;margin:0 auto;padding:0 84px 120px;}
 .hero-eyebrow{font-size:.62rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:block;}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(3.4rem,7.5vw,6.6rem);line-height:.92;color:#fff;margin-bottom:28px;max-width:700px;font-weight:900;}
@@ -177,9 +177,8 @@ section{padding:100px 84px;}
 /* REVIEWS */
 .reviews-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;}
 .rating-big{text-align:right;}
-.rating-num{font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:800;color:#fff;line-height:1;}
-.rating-stars{color:var(--gold);font-size:.95rem;margin-top:5px;letter-spacing:3px;}
-.rating-count{font-size:.72rem;color:var(--text2);margin-top:6px;}
+.rating-num{font-family:'Playfair Display',serif;font-size:3.2rem;font-weight:800;color:#fff;line-height:1;}
+.rating-count{font-size:.75rem;color:var(--text2);margin-top:10px;letter-spacing:.06em;}
 .reviews-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
 .review-card{background:var(--bg2);padding:36px 30px;transition:background .2s;}
 .review-card:hover{background:var(--bg3);}
@@ -682,7 +681,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
       <div class="cat-card-label">Shawarmas</div>
     </div>
     <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
-      <div class="cat-card-bg" style="background-image:url('vocca13.jpeg')"></div>
+      <div class="cat-card-bg" style="background-image:url('vocca13.jpeg');background-position:center 60%;"></div>
       <div class="cat-card-label">Smash Burgers</div>
     </div>
     <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
@@ -774,18 +773,18 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
     <div class="reviews-top">
       <div>
         <span class="section-label">Opiniones</span>
-        <h2 class="section-title">Lo que hace<br>que la gente vuelva.</h2>
+        <h2 class="section-title">Lo que dicen<br>después de probarlo.</h2>
       </div>
       <div class="rating-big">
-        <div class="rating-num">4.5</div>
-        <div class="rating-stars">★★★★★</div>
-        <div class="rating-count">Basado en 125 reseñas</div>
+        <div class="rating-num">4.5 ★</div>
+        <div class="rating-count">Google · +125 reseñas</div>
       </div>
     </div>
     <div class="reviews-grid">
-      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"100% recomendable. Un auténtico chispazo de calidad. Se nota cuando el producto es de primera."</p><div class="review-author">Beltrán De Gonzaga</div><div class="review-role">Cliente</div></div>
-      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Lugar muy recomendable. Calidad, precio razonable y platos que sorprenden. Repetiré seguro."</p><div class="review-author">Arían M.</div><div class="review-role">Cliente</div></div>
-      <div class="review-card"><div class="review-stars">★★★★☆</div><p class="review-text">"La burger de trufa buenísima, buena atención y rapidez en el pedido. Un sitio al que apetece volver."</p><div class="review-author">Clientes VOCCA</div><div class="review-role">Reseñas verificadas</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"El shawarma, brutal. Nada que ver con lo de siempre."</p><div class="review-author">Marcos R.</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"La Vocca Burger, de las mejores que he probado en Málaga."</p><div class="review-author">Laura G.</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Pedí por Glovo y llegó perfecto. Repetiré seguro."</p><div class="review-author">Alejandro F.</div></div>
+      <div class="review-card"><div class="review-stars">★★★★★</div><p class="review-text">"Sitio con personalidad. Se nota que cuidan el producto."</p><div class="review-author">Cristina M.</div></div>
     </div>
   </div>
 </section>
@@ -795,38 +794,38 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
   <div class="contact-inner">
     <div>
       <div class="section-label">Contacto</div>
-      <h2 class="section-title">Ven a disfrutar o llámanos</h2>
-      <p class="contact-desc">VOCCA está pensado para disfrutarlo en local, pedirlo para llevar o hacerlo llegar a casa. Estamos en Alhaurín de la Torre.</p>
+      <h2 class="section-title">Disfrútalo aquí,<br>para llevar o donde quieras.</h2>
+      <p class="contact-desc">VOCCA está hecho para cualquier plan: local, takeaway o delivery.<br>Disponible en Uber Eats, Glovo y Just Eat.</p>
       <div class="contact-btns">
-        <button class="btn-co">📞 Llamar ahora</button>
-        <button class="btn-cof">💬 WhatsApp</button>
+        <a class="btn-co" href="tel:683350119">📞 683 350 119</a>
+        <a class="btn-cof" href="https://wa.me/34683350119" target="_blank">💬 WhatsApp</a>
       </div>
       <div class="contact-info-grid">
         <div class="info-card">
           <div class="info-icon">📍</div>
           <div class="info-label">Ubicación</div>
-          <div class="info-val">C. Guete, Local 7<br>Alhaurín de la Torre, Málaga</div>
+          <div class="info-val">C/ Galeón, Local 7<br>Alhaurín de la Torre, Málaga</div>
         </div>
         <div class="info-card">
           <div class="info-icon">📞</div>
           <div class="info-label">Teléfono</div>
-          <div class="info-val">900 313 111</div>
+          <div class="info-val">683 350 119</div>
         </div>
         <div class="info-card">
-          <div class="info-icon">🕐</div>
-          <div class="info-label">Horario</div>
-          <div class="info-val">Consulta horarios antes de ir</div>
+          <div class="info-icon">🛵</div>
+          <div class="info-label">Delivery</div>
+          <div class="info-val">Uber Eats · Glovo · Just Eat</div>
         </div>
         <div class="info-card">
           <div class="info-icon">🛍️</div>
           <div class="info-label">Servicio</div>
-          <div class="info-val">Local · Para llevar · Domicilio</div>
+          <div class="info-val">Local · Takeaway · Delivery</div>
         </div>
       </div>
     </div>
     <div class="map-box">
       <div class="map-title">VOCCA – Alhaurín de la Torre</div>
-      <div class="map-ph"><span>🗺️</span>C. Guete, Local 7 · 29130</div>
+      <div class="map-ph"><span>🗺️</span>C/ Galeón, Local 7 · 29130</div>
       <div class="map-btns">
         <button class="map-btn">Cómo llegar</button>
         <button class="map-btn">Reservar / Consultar</button>
@@ -854,7 +853,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
     <h5>Contacto</h5>
     <ul>
       <li><a href="#">900 313 111</a></li>
-      <li><a href="#">C. Guete, Local 7</a></li>
+      <li><a href="#">C/ Galeón, Local 7</a></li>
       <li><a href="#">Alhaurín de la Torre, Málaga</a></li>
       <li><a href="#">@vocca.urbanfood</a></li>
     </ul>
@@ -925,7 +924,7 @@ const PRODUCTS=[
   {id:7,name:'Classic Burger',price:11.90,cat:'burgers',emoji:'🍔',desc:'180g doble smash con los clásicos de siempre.',badge:null,tags:['Doble smash','Clásica']},
   {id:8,name:'Truffle Burger',price:12.90,cat:'burgers',emoji:'🍔',desc:'180g doble smash con crema de trufa y queso fundido.',badge:'Destacado',tags:['Trufa','Premium']},
   {id:9,name:'Vocca Burger',price:12.90,cat:'burgers',emoji:'🍔',img:'vocca12.jpeg',desc:'La burger de la casa, con salsa especial VOCCA.',badge:'Signature',tags:['Salsa especial','Signature']},
-  {id:10,name:'Crunchy Chicken',price:11.90,cat:'burgers',emoji:'🍗',img:'vocca23.jpeg',desc:'Pollo crujiente rebozado al estilo VOCCA.',badge:null,tags:['Pollo','Crujiente']},
+  {id:10,name:'Crunchy Chicken',price:11.90,cat:'burgers',emoji:'🍗',img:'vocca23.jpeg',imgPos:'center 70%',desc:'Pollo crujiente rebozado al estilo VOCCA.',badge:null,tags:['Pollo','Crujiente']},
   {id:11,name:'Crunchy Korea',price:12.90,cat:'burgers',emoji:'🌶️',desc:'Pollo crujiente con salsa gochujang y slaw de col.',badge:'Picante',tags:['Pollo','Korea','Picante']},
   {id:12,name:'Oklahoma Burger',price:11.90,cat:'burgers',emoji:'🍔',desc:'Doble smash con cebolla caramelizada estilo Oklahoma.',badge:null,tags:['Cebolla caramelizada','Doble smash']},
   {id:13,name:'Veggie Burger',price:11.90,cat:'burgers',emoji:'🥦',desc:'Burger vegetal con todos los matices de la casa.',badge:'Vegano',tags:['Vegano','Plant-based']},
@@ -978,7 +977,7 @@ function renderProducts(){
   const list=activeTab==='all'?PRODUCTS:PRODUCTS.filter(p=>p.cat===activeTab);
   document.getElementById('productsGrid').innerHTML=list.map(p=>`
     <div class="product-card">
-      <div class="product-img">${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy">`:''}${p.badge?`<span class="product-badge">${p.badge}</span>`:''}<span class="product-img-emoji">${p.img?'':p.emoji}</span></div>
+      <div class="product-img">${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy" style="object-position:${p.imgPos||'center'}">`:''}${p.badge?`<span class="product-badge">${p.badge}</span>`:''}<span class="product-img-emoji">${p.img?'':p.emoji}</span></div>
       <div class="product-body">
         <div class="product-row"><span class="product-name">${p.name}</span><span class="product-price">${fmt(p.price)}</span></div>
         <p class="product-desc">${p.desc}</p>
@@ -998,7 +997,7 @@ renderProducts();
 /* ══════════════════════════════════════
    PRODUCT MODAL
 ══════════════════════════════════════ */
-function openProdModal(id){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;const imgEl=document.getElementById('prodImg');const emojiEl=document.getElementById('prodEmoji');if(p.img){imgEl.src=p.img;imgEl.alt=p.name;imgEl.style.display='block';emojiEl.style.display='none';}else{imgEl.style.display='none';emojiEl.style.display='';emojiEl.textContent=p.emoji;}document.getElementById('prodName').textContent=p.name;document.getElementById('prodDesc').textContent=p.desc;document.getElementById('prodPrice').textContent=fmt(p.price);document.getElementById('prodCat').textContent=CAT_LABELS[p.cat]||p.cat;const badge=document.getElementById('prodBadge');if(p.badge){badge.textContent=p.badge;badge.style.display='block';}else badge.style.display='none';document.getElementById('prodTags').innerHTML=(p.tags||[]).map(t=>`<span class="prod-tag">${t}</span>`).join('');document.getElementById('prodOverlay').classList.add('open');}
+function openProdModal(id){const p=PRODUCTS.find(x=>x.id===id);if(!p)return;const imgEl=document.getElementById('prodImg');const emojiEl=document.getElementById('prodEmoji');if(p.img){imgEl.src=p.img;imgEl.alt=p.name;imgEl.style.objectPosition=p.imgPos||'center';imgEl.style.display='block';emojiEl.style.display='none';}else{imgEl.style.display='none';emojiEl.style.display='';emojiEl.textContent=p.emoji;}document.getElementById('prodName').textContent=p.name;document.getElementById('prodDesc').textContent=p.desc;document.getElementById('prodPrice').textContent=fmt(p.price);document.getElementById('prodCat').textContent=CAT_LABELS[p.cat]||p.cat;const badge=document.getElementById('prodBadge');if(p.badge){badge.textContent=p.badge;badge.style.display='block';}else badge.style.display='none';document.getElementById('prodTags').innerHTML=(p.tags||[]).map(t=>`<span class="prod-tag">${t}</span>`).join('');document.getElementById('prodOverlay').classList.add('open');}
 function closeProdModal(){document.getElementById('prodOverlay').classList.remove('open');}
 document.getElementById('prodOverlay').addEventListener('click',function(e){if(e.target===this)closeProdModal();});
 
