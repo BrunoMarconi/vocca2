@@ -92,13 +92,14 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.9
 .hero-eyebrow{font-size:.62rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:block;}
 .hero h1{font-family:'Playfair Display',serif;font-size:clamp(3.4rem,7.5vw,6.6rem);line-height:.92;color:#fff;margin-bottom:28px;max-width:700px;font-weight:900;}
 .hero h1 em{font-style:italic;color:#fff;}
-.hero p{font-size:.92rem;color:rgba(255,255,255,.58);line-height:1.8;max-width:380px;margin-bottom:48px;}
+.hero p{font-size:.92rem;color:rgba(255,255,255,.88);line-height:1.8;max-width:380px;margin-bottom:48px;}
 .hero-btns{display:flex;gap:12px;align-items:center;}
 .btn-fill{background:#fff;color:#0c0c0c;border:none;border-radius:4px;padding:15px 38px;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s,color .2s;}
 .btn-fill:hover{background:var(--gold2);color:#0c0c0c;}
 .btn-outline{background:none;border:1.5px solid rgba(255,255,255,.28);color:rgba(255,255,255,.78);border-radius:4px;padding:14px 38px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
 .btn-outline:hover{border-color:#fff;color:#fff;}
-.hero-logo{position:absolute;top:90px;left:50%;transform:translateX(-50%);z-index:2;font-family:'DM Sans',sans-serif;font-size:1.1rem;font-weight:800;letter-spacing:.3em;text-transform:uppercase;color:#fff;}
+.hero-logo{position:absolute;top:50px;left:50%;transform:translateX(-50%);z-index:2;}
+.hero-logo img{height:180px;width:auto;display:block;}
 .hero-scroll{position:absolute;bottom:44px;right:84px;z-index:2;display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.25);font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;writing-mode:vertical-rl;}
 .hero-scroll::before{content:'';width:1px;height:52px;background:rgba(255,255,255,.15);display:block;}
 
@@ -159,10 +160,10 @@ section{padding:100px 84px;}
 .products-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
 .product-card{background:var(--bg2);transition:background .2s;cursor:pointer;}
 .product-card:hover{background:var(--bg3);}
-.product-img{height:200px;position:relative;background:#181818;display:flex;align-items:center;justify-content:center;overflow:hidden;}
-.product-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transition:transform .5s ease;}
-.product-card:hover .product-img img{transform:scale(1.06);}
-.product-img .product-img-emoji{position:relative;z-index:1;font-size:3rem;}
+.product-img{height:200px;position:relative;background:#111;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.product-img-bg{position:absolute;inset:0;background-repeat:no-repeat;background-position:center;background-size:cover;transition:transform .45s ease;}
+.product-card:hover .product-img-bg{transform:scale(1.04);}
+.product-img .product-img-emoji{position:relative;z-index:1;font-size:2.6rem;}
 .product-badge{position:absolute;top:12px;left:12px;z-index:2;background:var(--gold);color:#0c0c0c;border-radius:3px;padding:3px 10px;font-size:.62rem;font-weight:700;letter-spacing:.07em;text-transform:uppercase;}
 .product-body{padding:20px 22px;}
 .product-row{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px;}
@@ -194,9 +195,9 @@ section{padding:100px 84px;}
 .contact-section .section-title{font-size:clamp(2rem,3vw,2.8rem);max-width:100%;}
 .contact-section>div>p,.contact-desc{font-size:.88rem;color:var(--text2);line-height:1.75;margin-bottom:32px;max-width:440px;}
 .contact-btns{display:flex;gap:10px;margin-bottom:40px;flex-wrap:wrap;}
-.btn-co{border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.68);background:none;border-radius:4px;padding:12px 24px;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
+.btn-co{border:1px solid rgba(255,255,255,.12);color:rgba(255,255,255,.68);background:none;border-radius:4px;padding:12px 24px;font-size:.75rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;text-decoration:none;}
 .btn-co:hover{border-color:#fff;color:#fff;}
-.btn-cof{background:var(--gold);color:#0c0c0c;border:none;border-radius:4px;padding:12px 24px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;}
+.btn-cof{background:var(--gold);color:#0c0c0c;border:none;border-radius:4px;padding:12px 24px;font-size:.75rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s;text-decoration:none;}
 .btn-cof:hover{background:var(--gold2);}
 .contact-info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
 .info-card{background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.06);border-radius:8px;padding:18px 20px;display:flex;flex-direction:column;gap:4px;}
@@ -344,7 +345,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
 .prod-modal{background:var(--bg3);border:1px solid var(--border);border-radius:24px;width:100%;max-width:480px;overflow:hidden;transform:scale(.94) translateY(18px);transition:transform .32s cubic-bezier(.4,0,.2,1);box-shadow:0 24px 64px rgba(0,0,0,.7);}
 .prod-overlay.open .prod-modal{transform:scale(1) translateY(0);}
 .prod-modal-img{height:260px;background:linear-gradient(155deg,#1a1208,#2d1f0a,#111);display:flex;align-items:center;justify-content:center;font-size:6rem;position:relative;overflow:hidden;}
-.prod-modal-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;}
+.prod-modal-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;}
 .prod-modal-img .prod-modal-emoji{position:relative;z-index:1;}
 .prod-close{position:absolute;top:14px;right:14px;background:rgba(0,0,0,.55);border:none;color:#fff;border-radius:50%;width:34px;height:34px;font-size:1.1rem;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:background .2s;}
 .prod-close:hover{background:rgba(0,0,0,.8);}
@@ -500,6 +501,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
   .menu-tabs{flex-wrap:nowrap;overflow-x:auto;padding-bottom:4px;-webkit-overflow-scrolling:touch;}
   .menu-tabs::-webkit-scrollbar{display:none;}
   .products-grid{grid-template-columns:1fr 1fr;}
+  .product-img{height:170px;}
   .why-inner{grid-template-columns:1fr;gap:40px;padding:64px 28px;}
   .why-imgs{height:320px;}
   .why-pillars{grid-template-columns:1fr;border:none;gap:0;}
@@ -538,7 +540,12 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
   .hero h1{font-size:2.8rem;}
   .hero-btns{flex-direction:column;gap:10px;}
   .hero-btns button{width:100%;}
-  .products-grid{grid-template-columns:1fr;}
+  .products-grid{grid-template-columns:1fr 1fr;}
+  .product-img{height:150px;}
+  .product-body{padding:12px 14px;}
+  .product-name{font-size:.82rem;}
+  .product-desc{font-size:.72rem;margin-bottom:10px;}
+  .btn-ver{font-size:.72rem;padding:7px 14px;}
   .carta-split-right{grid-template-columns:1fr;min-height:auto;}
   .cat-card{min-height:200px;}
   .contact-info-grid{grid-template-columns:1fr;}
@@ -654,7 +661,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
 <!-- HERO -->
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-logo">VOCCA</div>
+  <div class="hero-logo"><img src="logo-vocca.png" alt="VOCCA"></div>
   <div class="hero-content">
     <span class="hero-eyebrow">Urban Food · Alhaurín de la Torre</span>
     <h1>Comida urbana.<br><em>Sabor que vuelve.</em></h1>
@@ -681,7 +688,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
       <div class="cat-card-label">Shawarmas</div>
     </div>
     <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
-      <div class="cat-card-bg" style="background-image:url('vocca13.jpeg');background-position:center 60%;"></div>
+      <div class="cat-card-bg" style="background-image:url('vocca12.jpeg');background-position:center 54%;"></div>
       <div class="cat-card-label">Smash Burgers</div>
     </div>
     <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
@@ -923,8 +930,8 @@ const PRODUCTS=[
   {id:6,name:'Cheese Burger',price:11.50,cat:'burgers',emoji:'🍔',desc:'180g doble smash, queso fundido en pan brioche. Pan vegano o sin gluten +1€.',badge:null,tags:['Doble smash','Cheddar','Brioche']},
   {id:7,name:'Classic Burger',price:11.90,cat:'burgers',emoji:'🍔',desc:'180g doble smash con los clásicos de siempre.',badge:null,tags:['Doble smash','Clásica']},
   {id:8,name:'Truffle Burger',price:12.90,cat:'burgers',emoji:'🍔',desc:'180g doble smash con crema de trufa y queso fundido.',badge:'Destacado',tags:['Trufa','Premium']},
-  {id:9,name:'Vocca Burger',price:12.90,cat:'burgers',emoji:'🍔',img:'vocca12.jpeg',desc:'La burger de la casa, con salsa especial VOCCA.',badge:'Signature',tags:['Salsa especial','Signature']},
-  {id:10,name:'Crunchy Chicken',price:11.90,cat:'burgers',emoji:'🍗',img:'vocca23.jpeg',imgPos:'center 70%',desc:'Pollo crujiente rebozado al estilo VOCCA.',badge:null,tags:['Pollo','Crujiente']},
+  {id:9,name:'Vocca Burger',price:12.90,cat:'burgers',emoji:'🍔',img:'vocca12.jpeg',imgZoom:'cover',imgPos:'center 45%',desc:'La burger de la casa, con salsa especial VOCCA.',badge:'Signature',tags:['Salsa especial','Signature']},
+  {id:10,name:'Crunchy Chicken',price:11.90,cat:'burgers',emoji:'🍗',img:'vocca23.jpeg',imgZoom:'cover',imgPos:'center 55%',desc:'Pollo crujiente rebozado al estilo VOCCA.',badge:null,tags:['Pollo','Crujiente']},
   {id:11,name:'Crunchy Korea',price:12.90,cat:'burgers',emoji:'🌶️',desc:'Pollo crujiente con salsa gochujang y slaw de col.',badge:'Picante',tags:['Pollo','Korea','Picante']},
   {id:12,name:'Oklahoma Burger',price:11.90,cat:'burgers',emoji:'🍔',desc:'Doble smash con cebolla caramelizada estilo Oklahoma.',badge:null,tags:['Cebolla caramelizada','Doble smash']},
   {id:13,name:'Veggie Burger',price:11.90,cat:'burgers',emoji:'🥦',desc:'Burger vegetal con todos los matices de la casa.',badge:'Vegano',tags:['Vegano','Plant-based']},
@@ -936,22 +943,22 @@ const PRODUCTS=[
   {id:18,name:'Bowl Mixto Cordero/Pollo o Ternera',price:14.00,cat:'bowls',emoji:'🥙',desc:'Mezcla de cordero con pollo o ternera sobre tu base favorita.',badge:null,tags:['Mixto','Cordero','Bowl']},
   /* ── FALAFEL ── */
   {id:19,name:'Falafel (4 uds)',price:5.50,cat:'falafel',emoji:'🧆',desc:'4 unidades de falafel crujiente con salsa.',badge:null,tags:['Vegano','Garbanzos','Sin gluten']},
-  {id:20,name:'Bowl Falafel',price:10.90,cat:'falafel',emoji:'🧆',img:'vocca18.jpeg',desc:'Falafel sobre base de arroz, patatas o ensalada con salsas.',badge:null,tags:['Vegano','Bowl']},
-  {id:21,name:'Falafel Rollo / Pan Pita',price:8.50,cat:'falafel',emoji:'🧆',img:'vocca3.jpeg',desc:'Falafel en rollo de pan o pan pita con verduras y salsa.',badge:null,tags:['Vegano','Pita']},
+  {id:20,name:'Bowl Falafel',price:10.90,cat:'falafel',emoji:'🧆',img:'vocca18.jpeg',imgZoom:'cover',imgPos:'center',desc:'Falafel sobre base de arroz, patatas o ensalada con salsas.',badge:null,tags:['Vegano','Bowl']},
+  {id:21,name:'Falafel Rollo / Pan Pita',price:8.50,cat:'falafel',emoji:'🧆',img:'vocca3.jpeg',imgZoom:'90%',imgPos:'center',desc:'Falafel en rollo de pan o pan pita con verduras y salsa.',badge:null,tags:['Vegano','Pita']},
   /* ── ENTRANTES ── */
-  {id:22,name:'Chicken Tenders (8 uds)',price:9.90,cat:'entrantes',emoji:'🍗',img:'vocca7.jpeg',desc:'8 tiras de pollo crujiente con salsa para mojar.',badge:null,tags:['Pollo','Crujiente']},
+  {id:22,name:'Chicken Tenders (8 uds)',price:9.90,cat:'entrantes',emoji:'🍗',img:'vocca7.jpeg',imgZoom:'cover',imgPos:'center',desc:'8 tiras de pollo crujiente con salsa para mojar.',badge:null,tags:['Pollo','Crujiente']},
   {id:23,name:'Chicken Wings (8 uds)',price:9.50,cat:'entrantes',emoji:'🍗',desc:'8 alitas de pollo con salsa BBQ o picante.',badge:'Favorito',tags:['Alitas','BBQ']},
-  {id:24,name:'Tequeños (6 uds)',price:9.50,cat:'entrantes',emoji:'🧀',img:'vocca2.jpeg',desc:'6 tequeños de queso crujientes con salsa.',badge:null,tags:['Queso','Crujiente']},
-  {id:25,name:'Tequeños Queso Azul (6 uds)',price:9.90,cat:'entrantes',emoji:'🧀',img:'vocca2.jpeg',desc:'6 tequeños rellenos de queso azul fundido.',badge:null,tags:['Queso Azul','Crujiente']},
+  {id:24,name:'Tequeños (6 uds)',price:9.50,cat:'entrantes',emoji:'🧀',img:'vocca2.jpeg',imgZoom:'cover',imgPos:'center',desc:'6 tequeños de queso crujientes con salsa.',badge:null,tags:['Queso','Crujiente']},
+  {id:25,name:'Tequeños Queso Azul (6 uds)',price:9.90,cat:'entrantes',emoji:'🧀',img:'vocca2.jpeg',imgZoom:'cover',imgPos:'center',desc:'6 tequeños rellenos de queso azul fundido.',badge:null,tags:['Queso Azul','Crujiente']},
   /* ── GUARNICIONES ── */
   {id:26,name:'Patatas Fritas Medianas',price:3.90,cat:'guarniciones',emoji:'🍟',desc:'Patatas fritas crujientes, formato mediano.',badge:null,tags:['Patatas','Vegano']},
   {id:27,name:'Patatas Fritas Grandes',price:5.90,cat:'guarniciones',emoji:'🍟',desc:'Patatas fritas crujientes, formato grande.',badge:null,tags:['Patatas','Vegano']},
-  {id:28,name:'Boniato Frito',price:4.90,cat:'guarniciones',emoji:'🍠',img:'vocca27.jpeg',desc:'Boniato frito con un toque dulce y crujiente.',badge:'Favorito',tags:['Boniato','Vegano']},
-  {id:29,name:'Patatas Trufadas',price:7.90,cat:'guarniciones',emoji:'🍟',img:'vocca15.jpeg',desc:'Patatas fritas con crema de trufa y queso parmesano.',badge:'Premium',tags:['Trufa','Parmesano']},
-  {id:30,name:'Patatas Cheddar & Bacon',price:7.90,cat:'guarniciones',emoji:'🍟',img:'vocca22.jpeg',desc:'Patatas cargadas con cheddar fundido y bacon crujiente.',badge:null,tags:['Cheddar','Bacon']},
+  {id:28,name:'Boniato Frito',price:4.90,cat:'guarniciones',emoji:'🍠',img:'vocca27.jpeg',imgZoom:'cover',imgPos:'center 35%',desc:'Boniato frito con un toque dulce y crujiente.',badge:'Favorito',tags:['Boniato','Vegano']},
+  {id:29,name:'Patatas Trufadas',price:7.90,cat:'guarniciones',emoji:'🍟',img:'vocca15.jpeg',imgZoom:'cover',imgPos:'center',desc:'Patatas fritas con crema de trufa y queso parmesano.',badge:'Premium',tags:['Trufa','Parmesano']},
+  {id:30,name:'Patatas Cheddar & Bacon',price:7.90,cat:'guarniciones',emoji:'🍟',img:'vocca22.jpeg',imgZoom:'cover',imgPos:'center',desc:'Patatas cargadas con cheddar fundido y bacon crujiente.',badge:null,tags:['Cheddar','Bacon']},
   /* ── ENSALADAS ── */
   {id:31,name:'Ensalada Aguacate Mango',price:10.95,cat:'ensaladas',emoji:'🥑',desc:'Aguacate, mango, mezclum y aliño de la casa.',badge:null,tags:['Aguacate','Mango','Vegano']},
-  {id:32,name:'Ensalada César',price:10.95,cat:'ensaladas',emoji:'🥗',img:'vocca28.jpeg',desc:'Lechuga romana, pollo, crutones y salsa césar.',badge:null,tags:['César','Pollo']},
+  {id:32,name:'Ensalada César',price:10.95,cat:'ensaladas',emoji:'🥗',img:'vocca28.jpeg',imgZoom:'cover',imgPos:'center',desc:'Lechuga romana, pollo, crutones y salsa césar.',badge:null,tags:['César','Pollo']},
   /* ── ESPECIALES ── */
   {id:33,name:'Campero Afro',price:8.90,cat:'especiales',emoji:'🥪',desc:'Bocadillo campero con toque afro, lleno de sabor.',badge:null,tags:['Campero','Especial']},
   {id:34,name:'Campero de Pollo',price:8.90,cat:'especiales',emoji:'🥪',desc:'Bocadillo campero clásico con pollo al estilo VOCCA.',badge:null,tags:['Campero','Pollo']},
@@ -977,7 +984,7 @@ function renderProducts(){
   const list=activeTab==='all'?PRODUCTS:PRODUCTS.filter(p=>p.cat===activeTab);
   document.getElementById('productsGrid').innerHTML=list.map(p=>`
     <div class="product-card">
-      <div class="product-img">${p.img?`<img src="${p.img}" alt="${p.name}" loading="lazy" style="object-position:${p.imgPos||'center'}">`:''}${p.badge?`<span class="product-badge">${p.badge}</span>`:''}<span class="product-img-emoji">${p.img?'':p.emoji}</span></div>
+      <div class="product-img">${p.img?`<div class="product-img-bg" style="background-image:url('${p.img}');background-size:${p.imgZoom||'cover'};background-position:${p.imgPos||'center'}"></div>`:''}${p.badge?`<span class="product-badge">${p.badge}</span>`:''}<span class="product-img-emoji">${p.img?'':p.emoji}</span></div>
       <div class="product-body">
         <div class="product-row"><span class="product-name">${p.name}</span><span class="product-price">${fmt(p.price)}</span></div>
         <p class="product-desc">${p.desc}</p>
