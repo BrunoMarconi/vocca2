@@ -90,8 +90,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.9
 .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.78) 0%,rgba(0,0,0,.38) 52%,rgba(0,0,0,.05) 100%),linear-gradient(to top,rgba(0,0,0,.6) 0%,transparent 40%);}
 .hero-content{position:relative;z-index:2;width:100%;max-width:1280px;margin:0 auto;padding:240px 84px 44px;}
 .hero-eyebrow{font-size:.62rem;font-weight:700;letter-spacing:.26em;text-transform:uppercase;color:var(--gold);margin-bottom:24px;display:block;}
-.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3.4rem,7.5vw,6.6rem);line-height:.92;color:#fff;margin-bottom:28px;max-width:700px;font-weight:900;}
-.hero h1 em{font-style:italic;color:#fff;}
+.hero h1{font-family:'DM Sans',sans-serif;font-size:clamp(3.2rem,7.5vw,6.2rem);line-height:.95;color:#fff;margin-bottom:28px;max-width:700px;font-weight:900;text-transform:uppercase;letter-spacing:-.01em;}
 .hero p{font-size:.92rem;color:rgba(255,255,255,.88);line-height:1.8;max-width:380px;margin-bottom:48px;}
 .hero-btns{display:flex;gap:12px;align-items:center;}
 .btn-fill{background:#fff;color:#0c0c0c;border:none;border-radius:4px;padding:15px 38px;font-size:.75rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:background .2s,color .2s;}
@@ -106,7 +105,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.9
 /* section base */
 section{padding:100px 84px;}
 .section-label{font-size:.62rem;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;display:block;}
-.section-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,3.8vw,3.6rem);line-height:1.03;color:#fff;margin-bottom:16px;}
+.section-title{font-family:'DM Sans',sans-serif;font-size:clamp(2.2rem,3.8vw,3.6rem);line-height:1.03;color:#fff;margin-bottom:16px;font-weight:900;text-transform:uppercase;letter-spacing:-.01em;}
 .section-sub{font-size:.87rem;color:var(--text2);line-height:1.78;max-width:480px;}
 
 /* CARTA SPLIT */
@@ -125,29 +124,19 @@ section{padding:100px 84px;}
 
 /* WHY */
 .why-section{padding:0 !important;background:var(--bg);border-top:1px solid rgba(255,255,255,.055);}
-.why-inner{max-width:1280px;margin:0 auto;padding:100px 84px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center;}
-.why-pillars{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:52px;border-top:1px solid var(--border);}
-.why-col{padding:28px 28px 28px 0;border-right:1px solid var(--border);}
-.why-col:last-child{border-right:none;padding-left:28px;padding-right:0;}
-.why-col:first-child{padding-left:0;}
-.why-col-num{font-family:'Playfair Display',serif;font-size:2.8rem;font-weight:900;color:rgba(255,255,255,.06);margin-bottom:10px;line-height:1;}
-.why-col h4{font-size:.85rem;font-weight:700;color:#fff;margin-bottom:7px;letter-spacing:.02em;}
-.why-col p{font-size:.78rem;color:var(--text2);line-height:1.68;}
-.why-imgs{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:8px;height:500px;}
+.why-inner{max-width:780px;margin:0 auto;padding:100px 84px;}
+.why-pillars{margin-top:48px;}
+.why-col{display:flex;gap:32px;align-items:flex-start;padding:28px 0;border-bottom:1px solid var(--border);}
+.why-col:first-child{border-top:1px solid var(--border);}
+.why-col-num{font-size:.7rem;font-weight:700;letter-spacing:.14em;color:var(--text2);min-width:28px;padding-top:4px;}
+.why-col-body{flex:1;}
+.why-col h4{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:8px;}
+.why-col p{font-size:.87rem;color:var(--text2);line-height:1.72;}
 .why-img-main{grid-row:1/-1;border-radius:10px;overflow:hidden;background-image:url('https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?auto=format&fit=crop&w=800&q=80');background-size:cover;background-position:center;}
 .why-img-sm{border-radius:10px;overflow:hidden;}
 .why-img-sm:first-of-type{background-image:url('https://images.unsplash.com/photo-1550547660-d9450f859349?auto=format&fit=crop&w=600&q=80');background-size:cover;background-position:center;}
 .why-img-sm:last-of-type{background-image:url('https://images.unsplash.com/photo-1529179765090-62ac2947c77d?auto=format&fit=crop&w=600&q=80');background-size:cover;background-position:center;}
 
-/* VIVE (MANZO STYLE) */
-.vive-section{position:relative;min-height:82vh;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:0 !important;border-top:1px solid rgba(255,255,255,.04);}
-.vive-bg{position:absolute;inset:0;background-image:url('vocca12.jpeg');background-size:cover;background-position:center;}
-.vive-bg::after{content:'';position:absolute;inset:0;background:rgba(0,0,0,.64);}
-.vive-content{position:relative;z-index:1;text-align:center;padding:100px 40px;max-width:900px;}
-.vive-section .section-title{font-size:clamp(3rem,6.5vw,5.8rem);line-height:.93;max-width:100%;margin:0 auto 22px;}
-.vive-section .section-sub{max-width:520px;margin:0 auto 48px;}
-.vive-link{background:none;border:none;border-bottom:1px solid rgba(255,255,255,.2);color:rgba(255,255,255,.45);font-size:.7rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;padding:0 0 4px;transition:color .2s,border-color .2s;}
-.vive-link:hover{color:#fff;border-color:rgba(255,255,255,.5);}
 
 /* MENU */
 .menu-section-wrap{background:var(--bg);border-top:1px solid var(--border);}
@@ -205,13 +194,9 @@ section{padding:100px 84px;}
 .info-label{font-size:.62rem;color:var(--text3);letter-spacing:.1em;text-transform:uppercase;}
 .info-val{font-size:.92rem;line-height:1.5;color:rgba(255,255,255,.85);font-weight:600;}
 .info-val a{color:inherit;text-decoration:none;}
-.map-box{background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:10px;overflow:hidden;}
-.map-title{font-weight:700;font-size:.84rem;color:#fff;padding:22px 24px 0;letter-spacing:.05em;text-transform:uppercase;}
-.map-ph{height:240px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;color:var(--text3);font-size:.8rem;margin:16px;background:rgba(255,255,255,.012);border-radius:7px;border:1px solid rgba(255,255,255,.04);}
-.map-ph span{font-size:2.2rem;}
-.map-btns{display:flex;gap:8px;padding:0 16px 20px;flex-wrap:wrap;}
-.map-btn{flex:1;min-width:120px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);color:rgba(255,255,255,.48);border-radius:4px;padding:10px 16px;font-size:.73rem;font-weight:600;letter-spacing:.06em;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
-.map-btn:hover{border-color:rgba(255,255,255,.22);color:#fff;}
+.contact-photo{border-radius:10px;overflow:hidden;background-image:url('parallevar_vocca.jpeg');background-size:cover;background-position:center;min-height:360px;}
+.contact-action-btns{display:flex;flex-direction:row;gap:10px;margin-top:36px;max-width:1280px;margin-left:auto;margin-right:auto;flex-wrap:wrap;}
+.contact-action-btns .btn-co,.contact-action-btns .btn-cof{flex:1;min-width:140px;text-align:center;}
 footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-top:1px solid rgba(255,255,255,.05);display:grid;grid-template-columns:2fr 1fr 1fr;gap:60px;}
 .footer-logo{font-family:'DM Sans',sans-serif;font-size:.88rem;font-weight:800;letter-spacing:.25em;text-transform:uppercase;color:#fff;margin-bottom:14px;}
 .footer-desc{font-size:.78rem;line-height:1.78;max-width:280px;color:rgba(255,255,255,.28);}
@@ -495,6 +480,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
   .hero-content{padding:210px 28px 60px;}
   .hero-scroll{display:none;}
   .hero h1{font-size:clamp(2.8rem,8vw,4.5rem);}
+  .hero p{margin-top:220px;}
   section{padding:64px 28px;}
   .section-title{font-size:clamp(2rem,5vw,2.8rem);}
   .carta-split{grid-template-columns:1fr;grid-template-rows:auto auto;}
@@ -506,19 +492,15 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
   .menu-tabs::-webkit-scrollbar{display:none;}
   .products-grid{grid-template-columns:1fr 1fr;}
   .product-img{height:170px;}
-  .why-inner{grid-template-columns:1fr;gap:40px;padding:64px 28px;}
-  .why-imgs{height:320px;}
-  .why-pillars{grid-template-columns:1fr;border:none;gap:0;}
-  .why-col{border-right:none;border-top:1px solid var(--border);padding:20px 0;}
-  .why-col:first-child{border-top:1px solid var(--border);}
-  .vive-section .section-title{font-size:clamp(2.4rem,7vw,4rem);}
-  .vive-content{padding:80px 28px;}
-  .reviews-top{flex-direction:column;align-items:flex-start;gap:16px;}
+  .why-inner{padding:64px 28px;}
+.reviews-top{flex-direction:column;align-items:flex-start;gap:16px;}
   .rating-big{text-align:left;}
   .reviews-grid{grid-template-columns:1fr;}
   .contact-inner{grid-template-columns:1fr;gap:32px;}
   .contact-section{padding:64px 28px !important;}
   .contact-info-grid{grid-template-columns:1fr 1fr;}
+  .contact-action-btns{flex-direction:column;}
+  .contact-action-btns .btn-co,.contact-action-btns .btn-cof{flex:none;width:100%;}
   footer{grid-template-columns:1fr;padding:48px 28px;gap:32px;}
   .footer-desc{max-width:100%;}
   .footer-bottom{padding:14px 28px;flex-direction:column;gap:6px;text-align:center;}
@@ -670,8 +652,8 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
   <div class="hero-logo"><img src="logo-vocca.png" alt="VOCCA"></div>
   <div class="hero-content">
     <span class="hero-eyebrow">Urban Food · Alhaurín de la Torre</span>
-    <h1>Comida urbana.<br><em>Sabor que vuelve.</em></h1>
-    <p>Shawarmas, smash burgers y platos hechos con producto cuidado y mucho sabor.</p>
+    <h1>Si vas a pecar<br>que sea aquí.</h1>
+    <p>Shawarmas, smash burgers y bowls hechos al momento con mucho sabor.</p>
     <div class="hero-btns">
       <button class="btn-fill" onclick="document.getElementById('carta').scrollIntoView({behavior:'smooth'})">Ver carta</button>
       <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contacto</button>
@@ -684,8 +666,8 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
 <div class="carta-split" id="carta">
   <div class="carta-split-left">
     <span class="section-label">La carta</span>
-    <h2 class="section-title">Una carta<br>para pecar<br>bien.</h2>
-    <p class="section-sub" style="margin-top:16px">Shawarmas, smash burgers, bowls, entrantes y ensaladas con una estética cuidada y sabor potente.</p>
+    <h2 class="section-title">Lo urbano,<br>bien hecho.</h2>
+    <p class="section-sub" style="margin-top:16px">Platos preparados con ingredientes seleccionados y recetas con intención.</p>
     <button class="carta-link" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">Ver carta completa →</button>
   </div>
   <div class="carta-split-right">
@@ -694,7 +676,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
       <div class="cat-card-label">Shawarmas</div>
     </div>
     <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
-      <div class="cat-card-bg" style="background-image:url('vocca12.jpeg');background-position:center 54%;"></div>
+      <div class="cat-card-bg" style="background-image:url('entrantes.jpeg');background-position:center 58%;"></div>
       <div class="cat-card-label">Smash Burgers</div>
     </div>
     <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
@@ -702,7 +684,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
       <div class="cat-card-label">Entrantes</div>
     </div>
     <div class="cat-card cat-card-border" onclick="document.getElementById('menu').scrollIntoView({behavior:'smooth'})">
-      <div class="cat-card-bg" style="background-image:url('https://images.unsplash.com/photo-1544145945-f90425340c7e?auto=format&fit=crop&w=800&q=80')"></div>
+      <div class="cat-card-bg" style="background-image:url('bebidas_vocca.jpeg');background-position:center 35%;"></div>
       <div class="cat-card-label">Bebidas</div>
     </div>
   </div>
@@ -711,46 +693,35 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
 <!-- WHY -->
 <section class="why-section" id="why">
   <div class="why-inner">
-    <div>
-      <span class="section-label">Por qué VOCCA</span>
-      <h2 class="section-title">Comida rápida,<br>pero <em>bien</em> hecha.</h2>
-      <p class="section-sub" style="margin-top:16px">VOCCA mezcla producto visual, una propuesta moderna y una experiencia directa y actual. Sin pretensiones, con mucho sabor.</p>
-      <div class="why-pillars">
-        <div class="why-col">
-          <div class="why-col-num">01</div>
+    <span class="section-label">Por qué VOCCA</span>
+    <h2 class="section-title">Por qué VOCCA</h2>
+    <p class="section-sub" style="margin-top:16px">Shawarmas frescos y burgers sin tonterías. Una forma más natural de disfrutar la comida urbana, con ingredientes seleccionados y recetas hechas para repetir.</p>
+    <div class="why-pillars">
+      <div class="why-col">
+        <div class="why-col-num">01</div>
+        <div class="why-col-body">
           <h4>Producto cuidado</h4>
-          <p>Ingredientes seleccionados y platos pensados para que el sabor se note de verdad.</p>
-        </div>
-        <div class="why-col">
-          <div class="why-col-num">02</div>
-          <h4>Sabor urbano</h4>
-          <p>Shawarmas, burgers y bowls con personalidad propia y elaboración cuidada.</p>
-        </div>
-        <div class="why-col">
-          <div class="why-col-num">03</div>
-          <h4>Para cada plan</h4>
-          <p>Local, take away o a domicilio. Tú eliges cómo vivir VOCCA.</p>
+          <p>Ingredientes frescos, de calidad y preparados al momento. Salsas caseras que marcan la diferencia.</p>
         </div>
       </div>
-    </div>
-    <div class="why-imgs">
-      <div class="why-img-main"></div>
-      <div class="why-img-sm"></div>
-      <div class="why-img-sm"></div>
+      <div class="why-col">
+        <div class="why-col-num">02</div>
+        <div class="why-col-body">
+          <h4>Shawarma especializado</h4>
+          <p>Carne marinada con nuestro toque, cocinada al momento y llena de sabor en cada bocado.</p>
+        </div>
+      </div>
+      <div class="why-col">
+        <div class="why-col-num">03</div>
+        <div class="why-col-body">
+          <h4>Hecho para cualquier plan</h4>
+          <p>Aquí, para llevar o en casa. Tú eliges cómo disfrutar VOCCA.</p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- VIVE VOCCA (Manzo style) -->
-<section class="vive-section">
-  <div class="vive-bg"></div>
-  <div class="vive-content">
-    <span class="section-label">Así se vive</span>
-    <h2 class="section-title">No es solo pedir comida.<br>Es vivir <em>VOCCA</em>.</h2>
-    <p class="section-sub">Burgers que entran por los ojos, shawarmas con carácter y platos que no parecen de compromiso.</p>
-    <button class="vive-link" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Síguenos en Instagram →</button>
-  </div>
-</section>
 
 <!-- MENU COMPLETO -->
 <section id="menu" class="menu-section-wrap">
@@ -808,11 +779,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
     <div>
       <div class="section-label">Contacto</div>
       <h2 class="section-title">Disfrútalo aquí,<br>para llevar o donde quieras.</h2>
-      <p class="contact-desc">VOCCA está hecho para cualquier plan: local, takeaway o delivery.<br>Disponible en Uber Eats, Glovo y Just Eat.</p>
-      <div class="contact-btns">
-        <a class="btn-co" href="tel:683350119">📞 683 350 119</a>
-        <a class="btn-cof" href="https://wa.me/34683350119" target="_blank">💬 WhatsApp</a>
-      </div>
+      <p class="contact-desc">VOCCA está hecho para cualquier plan: local, takeaway o delivery.<br>Disponible en Uber Eats y Glovo.</p>
       <div class="contact-info-grid">
         <div class="info-card">
           <div class="info-icon">📍</div>
@@ -820,30 +787,18 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
           <div class="info-val">C/ Galeón, Local 7<br>Alhaurín de la Torre, Málaga</div>
         </div>
         <div class="info-card">
-          <div class="info-icon">📞</div>
-          <div class="info-label">Teléfono</div>
-          <div class="info-val">683 350 119</div>
-        </div>
-        <div class="info-card">
           <div class="info-icon">🛵</div>
           <div class="info-label">Delivery</div>
-          <div class="info-val">Uber Eats · Glovo · Just Eat</div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon">🛍️</div>
-          <div class="info-label">Servicio</div>
-          <div class="info-val">Local · Takeaway · Delivery</div>
+          <div class="info-val">Uber Eats · Glovo</div>
         </div>
       </div>
     </div>
-    <div class="map-box">
-      <div class="map-title">VOCCA – Alhaurín de la Torre</div>
-      <div class="map-ph"><span>🗺️</span>C/ Galeón, Local 7 · 29130</div>
-      <div class="map-btns">
-        <button class="map-btn">Cómo llegar</button>
-        <button class="map-btn">Reservar / Consultar</button>
-      </div>
-    </div>
+    <div class="contact-photo"></div>
+  </div>
+  <div class="contact-action-btns">
+    <a class="btn-co" href="tel:683350119">📞 683 350 119</a>
+    <a class="btn-cof" href="https://wa.me/34683350119" target="_blank">💬 WhatsApp</a>
+    <a class="btn-co" href="https://maps.google.com/?q=C/+Galeón+7,+Alhaurín+de+la+Torre,+Málaga" target="_blank">📍 Ver Ubicación</a>
   </div>
 </section>
 
@@ -936,8 +891,8 @@ const PRODUCTS=[
   {id:6,name:'Cheese Burger',price:11.50,cat:'burgers',emoji:'🍔',desc:'180g doble smash, queso fundido en pan brioche. Pan vegano o sin gluten +1€.',badge:null,tags:['Doble smash','Cheddar','Brioche']},
   {id:7,name:'Classic Burger',price:11.90,cat:'burgers',emoji:'🍔',desc:'180g doble smash con los clásicos de siempre.',badge:null,tags:['Doble smash','Clásica']},
   {id:8,name:'Truffle Burger',price:12.90,cat:'burgers',emoji:'🍔',desc:'180g doble smash con crema de trufa y queso fundido.',badge:'Destacado',tags:['Trufa','Premium']},
-  {id:9,name:'Vocca Burger',price:12.90,cat:'burgers',emoji:'🍔',img:'vocca12.jpeg',imgZoom:'cover',imgPos:'center 45%',desc:'La burger de la casa, con salsa especial VOCCA.',badge:'Signature',tags:['Salsa especial','Signature']},
-  {id:10,name:'Crunchy Chicken',price:11.90,cat:'burgers',emoji:'🍗',img:'vocca23.jpeg',imgZoom:'cover',imgPos:'center 55%',desc:'Pollo crujiente rebozado al estilo VOCCA.',badge:null,tags:['Pollo','Crujiente']},
+  {id:9,name:'Vocca Burger',price:12.90,cat:'burgers',emoji:'🍔',img:'vocca12.jpeg',imgZoom:'cover',imgPos:'center 52%',desc:'La burger de la casa, con salsa especial VOCCA.',badge:'Signature',tags:['Salsa especial','Signature']},
+  {id:10,name:'Crunchy Chicken',price:11.90,cat:'burgers',emoji:'🍗',img:'crunchy.jpeg',imgZoom:'cover',imgPos:'center 75%',desc:'Pollo crujiente rebozado al estilo VOCCA.',badge:null,tags:['Pollo','Crujiente']},
   {id:11,name:'Crunchy Korea',price:12.90,cat:'burgers',emoji:'🌶️',desc:'Pollo crujiente con salsa gochujang y slaw de col.',badge:'Picante',tags:['Pollo','Korea','Picante']},
   {id:12,name:'Oklahoma Burger',price:11.90,cat:'burgers',emoji:'🍔',desc:'Doble smash con cebolla caramelizada estilo Oklahoma.',badge:null,tags:['Cebolla caramelizada','Doble smash']},
   {id:13,name:'Veggie Burger',price:11.90,cat:'burgers',emoji:'🥦',desc:'Burger vegetal con todos los matices de la casa.',badge:'Vegano',tags:['Vegano','Plant-based']},
@@ -955,7 +910,7 @@ const PRODUCTS=[
   {id:22,name:'Chicken Tenders (8 uds)',price:9.90,cat:'entrantes',emoji:'🍗',img:'vocca7.jpeg',imgZoom:'cover',imgPos:'center',desc:'8 tiras de pollo crujiente con salsa para mojar.',badge:null,tags:['Pollo','Crujiente']},
   {id:23,name:'Chicken Wings (8 uds)',price:9.50,cat:'entrantes',emoji:'🍗',desc:'8 alitas de pollo con salsa BBQ o picante.',badge:'Favorito',tags:['Alitas','BBQ']},
   {id:24,name:'Tequeños (6 uds)',price:9.50,cat:'entrantes',emoji:'🧀',img:'vocca2.jpeg',imgZoom:'cover',imgPos:'center',desc:'6 tequeños de queso crujientes con salsa.',badge:null,tags:['Queso','Crujiente']},
-  {id:25,name:'Tequeños Queso Azul (6 uds)',price:9.90,cat:'entrantes',emoji:'🧀',img:'vocca2.jpeg',imgZoom:'cover',imgPos:'center',desc:'6 tequeños rellenos de queso azul fundido.',badge:null,tags:['Queso Azul','Crujiente']},
+  {id:25,name:'Tequeños Queso Azul (6 uds)',price:9.90,cat:'entrantes',emoji:'🧀',img:'tequeños_azul.jpeg',imgZoom:'cover',imgPos:'center',desc:'6 tequeños rellenos de queso azul fundido.',badge:null,tags:['Queso Azul','Crujiente']},
   /* ── GUARNICIONES ── */
   {id:26,name:'Patatas Fritas Medianas',price:3.90,cat:'guarniciones',emoji:'🍟',desc:'Patatas fritas crujientes, formato mediano.',badge:null,tags:['Patatas','Vegano']},
   {id:27,name:'Patatas Fritas Grandes',price:5.90,cat:'guarniciones',emoji:'🍟',desc:'Patatas fritas crujientes, formato grande.',badge:null,tags:['Patatas','Vegano']},
