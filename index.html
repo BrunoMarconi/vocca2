@@ -97,6 +97,11 @@ nav{position:fixed;top:0;left:0;right:0;z-index:1000;background:rgba(10,10,10,.9
 .btn-fill:hover{background:var(--gold2);color:#0c0c0c;}
 .btn-outline{background:none;border:1.5px solid rgba(255,255,255,.28);color:rgba(255,255,255,.78);border-radius:4px;padding:14px 38px;font-size:.75rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;transition:border-color .2s,color .2s;}
 .btn-outline:hover{border-color:#fff;color:#fff;}
+/* FLOATING ORDER BUTTON */
+.btn-order-float{position:fixed;bottom:24px;left:50%;transform:translateX(-50%);z-index:9999;background:var(--gold);color:#0c0c0c;border:none;border-radius:50px;padding:16px 32px;font-size:.78rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:flex;align-items:center;gap:8px;box-shadow:0 8px 32px rgba(0,0,0,.5);white-space:nowrap;transition:transform .2s,background .2s;}
+.btn-order-float:hover{transform:translateX(-50%) scale(1.04);background:var(--gold2);}
+.btn-order{background:var(--gold);color:#0c0c0c;border:none;border-radius:4px;padding:15px 38px;font-size:.75rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;transition:background .2s;display:inline-block;}
+.btn-order:hover{background:var(--gold2);}
 .hero-logo{position:absolute;top:36px;left:50%;transform:translateX(-50%);z-index:2;}
 .hero-logo img{height:180px;width:auto;display:block;}
 .hero-scroll{position:absolute;bottom:44px;right:84px;z-index:2;display:flex;align-items:center;gap:10px;color:rgba(255,255,255,.25);font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;writing-mode:vertical-rl;}
@@ -655,6 +660,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
     <h1>Si vas a pecar<br>que sea aquí.</h1>
     <p>Shawarmas, smash burgers y bowls hechos al momento con mucho sabor.</p>
     <div class="hero-btns">
+      <a class="btn-order" href="https://app.foodyservice.com/business/382c77fa-f36f-406e-9598-20676a2e4809" target="_blank">🍽️ Hacer pedido</a>
       <button class="btn-fill" onclick="document.getElementById('carta').scrollIntoView({behavior:'smooth'})">Ver carta</button>
       <button class="btn-outline" onclick="document.getElementById('contact').scrollIntoView({behavior:'smooth'})">Contacto</button>
     </div>
@@ -796,6 +802,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
     <div class="contact-photo"></div>
   </div>
   <div class="contact-action-btns">
+    <a class="btn-order" href="https://app.foodyservice.com/business/382c77fa-f36f-406e-9598-20676a2e4809" target="_blank" style="text-align:center;padding:15px 38px;">🍽️ Hacer pedido</a>
     <a class="btn-co" href="tel:683350119">📞 683 350 119</a>
     <a class="btn-cof" href="https://wa.me/34683350119" target="_blank">💬 WhatsApp</a>
     <a class="btn-co" href="https://maps.google.com/?q=C/+Galeón+7,+Alhaurín+de+la+Torre,+Málaga" target="_blank">📍 Ver Ubicación</a>
@@ -847,7 +854,7 @@ footer{background:#080808;color:rgba(255,255,255,.28);padding:60px 84px;border-t
       <div class="prod-desc" id="prodDesc"></div>
       <div class="prod-tags" id="prodTags"></div>
       <div class="prod-footer">
-        <span class="prod-price" id="prodPrice"></span>
+        <span class="prod-price" id="prodPrice" style="display:none"></span>
         <button class="btn-add-modal" onclick="closeProdModal()">Cerrar</button>
       </div>
     </div>
@@ -947,7 +954,7 @@ function renderProducts(){
     <div class="product-card">
       <div class="product-img">${p.img?`<div class="product-img-bg" style="background-image:url('${p.img}');background-size:${p.imgZoom||'cover'};background-position:${p.imgPos||'center'}"></div>`:''}${p.badge?`<span class="product-badge">${p.badge}</span>`:''}<span class="product-img-emoji">${p.img?'':p.emoji}</span></div>
       <div class="product-body">
-        <div class="product-row"><span class="product-name">${p.name}</span><span class="product-price">${fmt(p.price)}</span></div>
+        <div class="product-row"><span class="product-name">${p.name}</span></div>
         <p class="product-desc">${p.desc}</p>
         <div class="product-actions">
           <button class="btn-ver" onclick="openProdModal(${p.id})">Ver producto</button>
@@ -1169,5 +1176,9 @@ function toggleSound(){soundOn=!soundOn;const b=document.getElementById('soundBt
 function beep(){try{const ctx=new(window.AudioContext||window.webkitAudioContext)();const o=ctx.createOscillator();const g=ctx.createGain();o.connect(g);g.connect(ctx.destination);o.frequency.value=880;o.type='sine';g.gain.setValueAtTime(.4,ctx.currentTime);g.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+.4);o.start(ctx.currentTime);o.stop(ctx.currentTime+.4);}catch(e){}}
 startClock();
 </script>
+
+<!-- FLOATING ORDER BUTTON -->
+<a class="btn-order-float" href="https://app.foodyservice.com/business/382c77fa-f36f-406e-9598-20676a2e4809" target="_blank">🍽️ Hacer pedido</a>
+
 </body>
 </html>
